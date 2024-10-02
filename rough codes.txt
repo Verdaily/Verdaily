@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article List</title>
+    <style>
+        /* Your existing CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        header img {
+            max-width: 40%;
+            min-width: 320px;
+        }
+
+        .hero {
+            background-color: #f0f0f0;
+            padding: 20px 200px;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .hero-content p {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .hero {
+                padding: 20px 100px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 20px 50px;
+            }
+
+            .hero-content h1 {
+                font-size: 2em;
+            }
+
+            .hero-content p {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 20px 20px;
+            }
+
+            .hero-content h1 {
+                font-size: 1.8em;
+            }
+
+            .hero-content p {
+                font-size: 1em;
+            }
+        }
+
+        .search-bar {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .search-bar input[type="text"] {
+            width: 80%;
+            max-width: 600px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
+        }
+
+        .article-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 0 5px;
+            margin: 0;
+        }
+
+        .article-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            flex-grow: 1;
+            box-sizing: border-box;
+            width: calc(33.33% - 10px);
+            /* Default width for larger screens */
+            margin: 5px;
+            /* Gap between articles */
+            transition: transform 0.3s ease;
+        }
+
+        .article-item:hover {
+            transform: scale(1.01);
+        }
+
+        .article-image {
+            width: 100%;
+            padding-bottom: 56.25%;
+            position: relative;
+            background-color: #ddd;
+            overflow: hidden;
+        }
+
+        .article-image img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            /* Smooth zoom effect */
+        }
+
+        .article-item:hover .article-image img {
+            transform: translate(-50%, -50%) scale(1.1);
+            /* Zoom image on hover */
+        }
+
+        .article-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .article-meta {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .art {
+            margin: 20px 60px;
+        }
+
+        /* Responsive styles for tablets and phones */
+        @media (max-width: 1024px) {
+            .article-item {
+                width: calc(50% - 10px);
+                /* 2 articles per row on tablets */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .article-item {
+                width: calc(50% - 10px);
+                /* 2 articles per row on mobile */
+            }
+
+            .art {
+                margin: 0px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .article-item {
+                width: 100%;
+                /* 1 article per row on mobile portrait */
+            }
+
+            .search-bar input[type="text"] {
+                width: 95%;
+            }
+
+            .art {
+                margin: 0px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html"><img src="logo/logo.png" alt="Logo"></a>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Verdaily</h1>
+            <p>Explore Articles on Science and Business</p>
+            <p>Stay updated with the latest insights in science and business. From groundbreaking discoveries to
+                business trends, find the knowledge you need—all in one place.</p>
+        </div>
+    </section>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search for articles...">
+    </div>
+    <div class="art">
+        <section class="article-list" id="article-list">
+            <!-- Articles will be dynamically loaded here -->
+        </section>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const articleList = document.getElementById('article-list');
+            const searchInput = document.getElementById('searchInput');
+
+            fetch('articles.csv')
+                .then(response => response.text())
+                .then(data => {
+                    let articles = parseCSV(data);
+                    
+                    // Sort articles by latest date first
+                    articles.sort((a, b) => parseDate(b.postDate) - parseDate(a.postDate));
+
+                    renderArticles(articles);
+
+                    searchInput.addEventListener('input', function () {
+                        const query = searchInput.value.toLowerCase();
+                        const filteredArticles = articles.filter(article => {
+                            // Check title, category1, category2, and all tags for the search query
+                            return (
+                                article.title.toLowerCase().includes(query) ||
+                                article.category1.toLowerCase().includes(query) ||
+                                article.category2.toLowerCase().includes(query) ||
+                                (article.tags && article.tags.some(tag => tag.toLowerCase().includes(query)))
+                            );
+                        });
+                        renderArticles(filteredArticles);
+                    });
+                })
+                .catch(error => console.error('Error loading articles:', error));
+
+            function parseCSV(data) {
+                const rows = data.trim().split('\n').slice(1); // Remove the header row
+                return rows.map(row => {
+                    const cols = row.split(',');
+                    const tags = cols.slice(6).filter(tag => tag !== '?'); // Collect all tags from columns starting from index 6
+                    return {
+                        number: cols[0],
+                        title: cols[1] === '?' ? '' : cols[1],
+                        imageSrc: cols[2] === '?' ? 'placeholder.png' : cols[2],
+                        postDate: cols[3] === '?' ? '01-01-1970' : cols[3], // Set a default date if unknown
+                        category1: cols[4] === '?' ? '' : cols[4],
+                        category2: cols[5] === '?' ? '' : cols[5],
+                        tags: tags.length > 0 ? tags : null // Include tags in the article object
+                    };
+                });
+            }
+
+            function parseDate(dateStr) {
+                const [day, month, year] = dateStr.split('-').map(num => parseInt(num, 10));
+                return new Date(year, month - 1, day);
+            }
+
+            function renderArticles(articles) {
+                articleList.innerHTML = '';
+                articles.forEach(article => {
+                    const articleItem = createArticleItem(article);
+                    articleList.appendChild(articleItem);
+                });
+            }
+
+            function createArticleItem(article) {
+                const articleItem = document.createElement('div');
+                articleItem.classList.add('article-item');
+                articleItem.innerHTML = `
+                    <div class="article-image">
+                        <img src="${article.imageSrc}" alt="${article.title}">
+                    </div>
+                    <div class="article-title">${article.title}</div>
+                    <div class="article-meta">${formatDate(article.postDate)} | ${article.category1} ${article.category2 ? '| ' + article.category2 : ''}</div>
+                `;
+
+                articleItem.addEventListener('click', function () {
+                    window.location.href = `article.html?article=${article.number}`;
+                });
+
+                return articleItem;
+            }
+
+            function formatDate(dateStr) {
+                // Optional: Format the date to a more readable format if desired
+                const [day, month, year] = dateStr.split('-');
+                return `${day}-${month}-${year}`;
+            }
+        });
+    </script>
+</body>
+
+</html>
+
+
+
+
+article
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article</title>
+    <!-- Font Awesome for Social Media Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-pzw8+BD6Bsj5IjJ+C5ZvsyiA05H3YjaR+5HrX6Z1fOj0jDVhGVD+CVg4TVfKv+mwEcMgKpI6B8IGihxg3j+1xA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            /* font-weight: 300; */
+        }
+
+        header {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        header img {
+            max-width: 40%;
+            min-width: 320px;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+            background-color: #ffffff;
+            /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+            padding-bottom: 40px;
+        }
+
+        .article-image {
+            width: 100%;
+            height: auto;
+        }
+
+        .article-content {
+            padding: 20px;
+        }
+
+        .article-title {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .article-meta {
+            font-size: 0.9em;
+            color: #7c85ff;
+            margin-bottom: 20px;
+        }
+
+        .social-media {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            background-color: #812a2a;
+        }
+
+        .social-media a {
+            color: #333;
+            font-size: 1.5em;
+            transition: color 0.3s;
+        }
+
+        .social-media a i {
+            color: #004992;
+        }
+
+        .social-media a:hover {
+            color: #0073e6;
+        }
+
+        footer {
+            background-color: #fdfdfd;
+            text-align: center;
+            padding: 10px 0;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+
+
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+
+            .article-title {
+                font-size: 1.5em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header img {
+                max-width: 150px;
+            }
+
+            .article-title {
+                font-size: 1.2em;
+            }
+        }
+
+        .container {
+            white-space: pre-line;
+
+        }
+
+        b {
+            color: #444444;
+            line-height: 1;
+        }
+
+        p {
+            font-size: 22px;
+            margin: 0;
+            padding: 0;
+            color: #525252;
+        }
+
+        br {
+            line-height: .4;
+        }
+
+        li{
+            color: #525252;
+            font-size: 22px;
+        }
+        h2 {
+            color: #1f1f1f;
+        }
+        ul {
+            list-style: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html"><img src="logo/logo.png" alt="Logo"></a>
+    </header>
+
+    <div class="container">
+        <img src="images/placeholder.png" alt="Article Image" class="article-image" id="article-image">
+        <div class="article-content">
+            <h1 class="article-title" id="article-title">Loading...</h1>
+            <div class="article-meta" id="article-meta">Loading...</div>
+            <div class="article-text" id="article-text">
+                Loading content...
+            </div>
+        </div>
+    
+    <footer>
+        &copy; 2024 Verdaily. All rights reserved.
+         <!-- Social Media Sharing Links -->
+    <div class="social-media">
+        <a href="#" id="whatsapp-share" target="_blank" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" id="facebook-share" target="_blank" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" id="twitter-share" target="_blank" aria-label="Share on Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" id="instagram-share" target="_blank" aria-label="Visit our Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const articleTitle = document.getElementById('article-title');
+            const articleMeta = document.getElementById('article-meta');
+            const articleImage = document.getElementById('article-image');
+            const articleText = document.getElementById('article-text');
+
+            // Function to get URL parameter
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            const articleNumber = getQueryParam('article');
+
+            if (!articleNumber) {
+                articleTitle.textContent = 'Article Not Found';
+                articleMeta.textContent = '';
+                articleText.textContent = 'No article specified. Please return to the homepage.';
+                articleImage.src = 'images/placeholder.png';
+                return;
+            }
+
+            // Fetch articles.csv to get metadata
+            fetch('articles.csv')
+                .then(response => response.text())
+                .then(data => {
+                    const articles = parseCSV(data);
+                    const article = articles.find(a => a.number === articleNumber);
+
+                    if (!article) {
+                        articleTitle.textContent = 'Article Not Found';
+                        articleMeta.textContent = '';
+                        articleText.textContent = 'The specified article does not exist.';
+                        articleImage.src = 'images/placeholder.png';
+                        return;
+                    }
+
+                    // Update metadata
+                    articleTitle.textContent = article.title || 'Untitled Article';
+                    articleMeta.textContent = `${article.postDate} | ${article.category1}${article.category2 ? ' | ' + article.category2 : ''}`;
+
+                    // Update image
+                    articleImage.src = article.imageSrc || 'img/placeholder.png';
+                    articleImage.alt = article.title || 'Article Image';
+
+                    // Fetch article content from .txt file
+                    fetch(`articles/${article.number}.txt`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Content not found');
+                            }
+                            return response.text();
+                        })
+                        .then(content => {
+                            // Assuming the .txt file contains HTML content. If it's plain text, use textContent instead.
+                            articleText.innerHTML = content;
+                        })
+                        .catch(error => {
+                            console.error('Error loading article content:', error);
+                            articleText.textContent = 'Error loading article content.';
+                        });
+                })
+                .catch(error => {
+                    console.error('Error loading articles:', error);
+                    articleTitle.textContent = 'Error';
+                    articleMeta.textContent = '';
+                    articleText.textContent = 'An error occurred while loading the article.';
+                    articleImage.src = 'images/placeholder.png';
+                });
+
+            // Function to parse CSV
+            function parseCSV(data) {
+                const lines = data.trim().split('\n');
+                const headers = lines[0].split(',');
+
+                return lines.slice(1).map(line => {
+                    const cols = line.split(',');
+                    const tags = cols.slice(6).filter(tag => tag !== '?'); // Adjust index based on CSV structure
+
+                    return {
+                        number: cols[0],
+                        title: cols[1] === '?' ? '' : cols[1],
+                        imageSrc: cols[2] === '?' ? 'images/placeholder.png' : cols[2],
+                        postDate: cols[3] === '?' ? 'Unknown Date' : cols[3],
+                        category1: cols[4] === '?' ? '' : cols[4],
+                        category2: cols[5] === '?' ? '' : cols[5],
+                        tags: tags.length > 0 ? tags : null
+                    };
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

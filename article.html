@@ -4,14 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Article</title>
+    <title id="page-title">Article</title>
     <!-- Font Awesome for Social Media Icons -->
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="icon" href="logo/favicon.png" type="image/png">
     <style>
         /* Basic Reset */
         * {
@@ -29,10 +28,8 @@
             display: flex;
             flex-direction: column;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            margin: 0;
-            padding: 0;
             background-color: #ffffff;
-            /* font-weight: 300; */
+            align-items: center;
         }
 
         header {
@@ -49,24 +46,21 @@
             flex: 1;
             max-width: 900px;
             margin: 20px auto;
-            padding: 0 20px;
+            padding: 20px;
             background-color: #ffffff;
-            /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
-            padding-bottom: 40px;
             white-space: pre-line;
+            margin-top: 0px;
+            padding-top: 0px;
         }
 
         .article-image {
             width: 100%;
             height: auto;
-        }
-
-        .article-content {
-            padding: 20px;
+            margin-bottom: 30px;
         }
 
         .article-title {
-            font-size: 2em;
+            font-size: 2.6rem;
             margin-bottom: 10px;
         }
 
@@ -80,8 +74,7 @@
             display: flex;
             justify-content: center;
             gap: 20px;
-            margin-top: 10px; /* Adjusted spacing */
-            background-color: transparent; /* Changed to fit footer */
+            margin-top: 10px;
         }
 
         .social-media a {
@@ -90,28 +83,21 @@
             transition: color 0.3s;
         }
 
-        .social-media a i {
-            color: #0073e6;
-        }
-
         .social-media a:hover {
             color: #0073e6;
         }
 
         footer {
-            background-color: #fdfdfd;
+            background-color: #cecece;
             text-align: center;
             padding: 10px 0;
             box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-            margin-top: 0; /* Removed extra space */
+            margin-top: 0;
+            width: 100%;
         }
 
         /* Responsive Styles */
         @media (max-width: 768px) {
-            .container {
-                margin: 10px;
-            }
-
             .article-title {
                 font-size: 1.5em;
             }
@@ -132,20 +118,11 @@
             line-height: 1;
         }
 
-        p {
-            font-size: 22px;
-            margin: 0;
-            padding: 0;
-            color: #525252;
-        }
-
-        br {
-            line-height: .4;
-        }
-
+        p,
         li {
             color: #525252;
-            font-size: 22px;
+            font-size: 1.4rem;
+            margin: 0;
         }
 
         h2 {
@@ -162,28 +139,29 @@
     <header>
         <a href="index.html"><img src="logo/logo.png" alt="Logo"></a>
     </header>
-
+<hr style="height: 40px; width: 80%; text-align: center;">
     <div class="container">
-        <img src="images/placeholder.png" alt="Article Image" class="article-image" id="article-image">
         <div class="article-content">
             <h1 class="article-title" id="article-title">Loading...</h1>
             <div class="article-meta" id="article-meta">Loading...</div>
-            <div class="article-text" id="article-text">
-                Loading content...
-            </div>
+            <img src="images/placeholder.png" alt="Article Image" class="article-image" id="article-image">
+            <div class="article-text" id="article-text">Loading content...</div>
         </div>
         <!-- Social Media Sharing Links -->
         <div class="social-media">
-            <a href="#" id="whatsapp-share" target="_blank" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
-            <a href="#" id="facebook-share" target="_blank" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" id="twitter-share" target="_blank" aria-label="Share on Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" id="instagram-share" target="_blank" aria-label="Visit our Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" id="whatsapp-share" target="_blank" aria-label="Share on WhatsApp"><i
+                    class="fab fa-whatsapp"></i></a>
+            <a href="#" id="facebook-share" target="_blank" aria-label="Share on Facebook"><i
+                    class="fab fa-facebook-f"></i></a>
+            <a href="#" id="twitter-share" target="_blank" aria-label="Share on Twitter"><i
+                    class="fab fa-twitter"></i></a>
+            <a href="#" id="instagram-share" target="_blank" aria-label="Visit our Instagram"><i
+                    class="fab fa-instagram"></i></a>
         </div>
     </div>
 
     <footer>
         &copy; 2024 Verdaily. All rights reserved.
-
     </footer>
 
     <script>
@@ -203,6 +181,7 @@
 
             if (!articleNumber) {
                 articleTitle.textContent = 'Article Not Found';
+                document.title = 'Article Not Found'; // Update the page title
                 articleMeta.textContent = '';
                 articleText.textContent = 'No article specified. Please return to the homepage.';
                 articleImage.src = 'images/placeholder.png';
@@ -218,6 +197,7 @@
 
                     if (!article) {
                         articleTitle.textContent = 'Article Not Found';
+                        document.title = 'Article Not Found'; // Update the page title
                         articleMeta.textContent = '';
                         articleText.textContent = 'The specified article does not exist.';
                         articleImage.src = 'images/placeholder.png';
@@ -226,10 +206,11 @@
 
                     // Update metadata
                     articleTitle.textContent = article.title || 'Untitled Article';
+                    document.title = article.title || 'Untitled Article'; // Update the page title
                     articleMeta.textContent = `${article.postDate} | ${article.category1}${article.category2 ? ' | ' + article.category2 : ''}`;
 
                     // Update image
-                    articleImage.src = article.imageSrc || 'img/placeholder.png';
+                    articleImage.src = article.imageSrc || 'images/placeholder.png';
                     articleImage.alt = article.title || 'Article Image';
 
                     // Fetch article content from .txt file
@@ -241,8 +222,7 @@
                             return response.text();
                         })
                         .then(content => {
-                            // Assuming the .txt file contains HTML content. If it's plain text, use textContent instead.
-                            articleText.innerHTML = content;
+                            articleText.innerHTML = content; // Assuming the .txt file contains HTML content
                         })
                         .catch(error => {
                             console.error('Error loading article content:', error);
@@ -252,6 +232,7 @@
                 .catch(error => {
                     console.error('Error loading articles:', error);
                     articleTitle.textContent = 'Error';
+                    document.title = 'Error'; // Update the page title
                     articleMeta.textContent = '';
                     articleText.textContent = 'An error occurred while loading the article.';
                     articleImage.src = 'images/placeholder.png';
@@ -264,8 +245,6 @@
 
                 return lines.slice(1).map(line => {
                     const cols = line.split(',');
-                    const tags = cols.slice(6).filter(tag => tag !== '?'); // Adjust index based on CSV structure
-
                     return {
                         number: cols[0],
                         title: cols[1] === '?' ? '' : cols[1],
@@ -273,32 +252,9 @@
                         postDate: cols[3] === '?' ? 'Unknown Date' : cols[3],
                         category1: cols[4] === '?' ? '' : cols[4],
                         category2: cols[5] === '?' ? '' : cols[5],
-                        tags: tags.length > 0 ? tags : null
                     };
                 });
             }
-
-            // Social Media Sharing Functionality
-            const whatsappShare = document.getElementById('whatsapp-share');
-            const facebookShare = document.getElementById('facebook-share');
-            const twitterShare = document.getElementById('twitter-share');
-            const instagramShare = document.getElementById('instagram-share');
-
-            const pageURL = encodeURIComponent(window.location.href);
-            const pageTitle = encodeURIComponent(document.title);
-
-            // WhatsApp Sharing
-            whatsappShare.href = `https://wa.me/?text=${pageTitle}%20${pageURL}`;
-
-            // Facebook Sharing
-            facebookShare.href = `https://www.facebook.com/sharer/sharer.php?u=${pageURL}`;
-
-            // Twitter Sharing
-            twitterShare.href = `https://twitter.com/intent/tweet?url=${pageURL}&text=${pageTitle}`;
-
-            // Instagram doesn't support direct sharing links. Instead, link to your Instagram profile or a specific post.
-            // Replace 'your-instagram-username' with your actual Instagram username.
-            instagramShare.href = `https://www.instagram.com/your-instagram-username/`;
         });
     </script>
 </body>
