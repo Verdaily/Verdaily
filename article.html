@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article</title>
+    <!-- Font Awesome for Social Media Icons -->
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            /* font-weight: 300; */
+        }
+
+        header {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        header img {
+            max-width: 40%;
+            min-width: 320px;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+            background-color: #ffffff;
+            /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+            padding-bottom: 40px;
+            white-space: pre-line;
+        }
+
+        .article-image {
+            width: 100%;
+            height: auto;
+        }
+
+        .article-content {
+            padding: 20px;
+        }
+
+        .article-title {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .article-meta {
+            font-size: 0.9em;
+            color: #7c85ff;
+            margin-bottom: 20px;
+        }
+
+        .social-media {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px; /* Adjusted spacing */
+            background-color: transparent; /* Changed to fit footer */
+        }
+
+        .social-media a {
+            color: #333;
+            font-size: 1.5em;
+            transition: color 0.3s;
+        }
+
+        .social-media a i {
+            color: #0073e6;
+        }
+
+        .social-media a:hover {
+            color: #0073e6;
+        }
+
+        footer {
+            background-color: #fdfdfd;
+            text-align: center;
+            padding: 10px 0;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 0; /* Removed extra space */
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+
+            .article-title {
+                font-size: 1.5em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header img {
+                max-width: 150px;
+            }
+
+            .article-title {
+                font-size: 1.2em;
+            }
+        }
+
+        b {
+            color: #444444;
+            line-height: 1;
+        }
+
+        p {
+            font-size: 22px;
+            margin: 0;
+            padding: 0;
+            color: #525252;
+        }
+
+        br {
+            line-height: .4;
+        }
+
+        li {
+            color: #525252;
+            font-size: 22px;
+        }
+
+        h2 {
+            color: #1f1f1f;
+        }
+
+        ul {
+            list-style: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html"><img src="logo/logo.png" alt="Logo"></a>
+    </header>
+
+    <div class="container">
+        <img src="images/placeholder.png" alt="Article Image" class="article-image" id="article-image">
+        <div class="article-content">
+            <h1 class="article-title" id="article-title">Loading...</h1>
+            <div class="article-meta" id="article-meta">Loading...</div>
+            <div class="article-text" id="article-text">
+                Loading content...
+            </div>
+        </div>
+        <!-- Social Media Sharing Links -->
+        <div class="social-media">
+            <a href="#" id="whatsapp-share" target="_blank" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" id="facebook-share" target="_blank" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" id="twitter-share" target="_blank" aria-label="Share on Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" id="instagram-share" target="_blank" aria-label="Visit our Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2024 Verdaily. All rights reserved.
+
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const articleTitle = document.getElementById('article-title');
+            const articleMeta = document.getElementById('article-meta');
+            const articleImage = document.getElementById('article-image');
+            const articleText = document.getElementById('article-text');
+
+            // Function to get URL parameter
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            const articleNumber = getQueryParam('article');
+
+            if (!articleNumber) {
+                articleTitle.textContent = 'Article Not Found';
+                articleMeta.textContent = '';
+                articleText.textContent = 'No article specified. Please return to the homepage.';
+                articleImage.src = 'images/placeholder.png';
+                return;
+            }
+
+            // Fetch articles.csv to get metadata
+            fetch('articles.csv')
+                .then(response => response.text())
+                .then(data => {
+                    const articles = parseCSV(data);
+                    const article = articles.find(a => a.number === articleNumber);
+
+                    if (!article) {
+                        articleTitle.textContent = 'Article Not Found';
+                        articleMeta.textContent = '';
+                        articleText.textContent = 'The specified article does not exist.';
+                        articleImage.src = 'images/placeholder.png';
+                        return;
+                    }
+
+                    // Update metadata
+                    articleTitle.textContent = article.title || 'Untitled Article';
+                    articleMeta.textContent = `${article.postDate} | ${article.category1}${article.category2 ? ' | ' + article.category2 : ''}`;
+
+                    // Update image
+                    articleImage.src = article.imageSrc || 'img/placeholder.png';
+                    articleImage.alt = article.title || 'Article Image';
+
+                    // Fetch article content from .txt file
+                    fetch(`articles/${article.number}.txt`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Content not found');
+                            }
+                            return response.text();
+                        })
+                        .then(content => {
+                            // Assuming the .txt file contains HTML content. If it's plain text, use textContent instead.
+                            articleText.innerHTML = content;
+                        })
+                        .catch(error => {
+                            console.error('Error loading article content:', error);
+                            articleText.textContent = 'Error loading article content.';
+                        });
+                })
+                .catch(error => {
+                    console.error('Error loading articles:', error);
+                    articleTitle.textContent = 'Error';
+                    articleMeta.textContent = '';
+                    articleText.textContent = 'An error occurred while loading the article.';
+                    articleImage.src = 'images/placeholder.png';
+                });
+
+            // Function to parse CSV
+            function parseCSV(data) {
+                const lines = data.trim().split('\n');
+                const headers = lines[0].split(',');
+
+                return lines.slice(1).map(line => {
+                    const cols = line.split(',');
+                    const tags = cols.slice(6).filter(tag => tag !== '?'); // Adjust index based on CSV structure
+
+                    return {
+                        number: cols[0],
+                        title: cols[1] === '?' ? '' : cols[1],
+                        imageSrc: cols[2] === '?' ? 'images/placeholder.png' : cols[2],
+                        postDate: cols[3] === '?' ? 'Unknown Date' : cols[3],
+                        category1: cols[4] === '?' ? '' : cols[4],
+                        category2: cols[5] === '?' ? '' : cols[5],
+                        tags: tags.length > 0 ? tags : null
+                    };
+                });
+            }
+
+            // Social Media Sharing Functionality
+            const whatsappShare = document.getElementById('whatsapp-share');
+            const facebookShare = document.getElementById('facebook-share');
+            const twitterShare = document.getElementById('twitter-share');
+            const instagramShare = document.getElementById('instagram-share');
+
+            const pageURL = encodeURIComponent(window.location.href);
+            const pageTitle = encodeURIComponent(document.title);
+
+            // WhatsApp Sharing
+            whatsappShare.href = `https://wa.me/?text=${pageTitle}%20${pageURL}`;
+
+            // Facebook Sharing
+            facebookShare.href = `https://www.facebook.com/sharer/sharer.php?u=${pageURL}`;
+
+            // Twitter Sharing
+            twitterShare.href = `https://twitter.com/intent/tweet?url=${pageURL}&text=${pageTitle}`;
+
+            // Instagram doesn't support direct sharing links. Instead, link to your Instagram profile or a specific post.
+            // Replace 'your-instagram-username' with your actual Instagram username.
+            instagramShare.href = `https://www.instagram.com/your-instagram-username/`;
+        });
+    </script>
+</body>
+
+</html>

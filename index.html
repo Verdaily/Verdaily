@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Your existing CSS styles */
+        body {
+            font-family: "Roboto Slab", serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f8fc;
+        }
+
+        header {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        header img {
+            max-width: 35%;
+            min-width: 320px;
+        }
+
+        .hero {
+            background-color: #f4f8fc;
+            padding: 0px 200px;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5em;
+            margin-bottom: 0px;
+            margin-top: 0px;
+            color: #333;
+        }
+
+        .hero-content p {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .hero {
+                padding: 20px 100px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 20px 50px;
+            }
+
+            .hero-content h1 {
+                font-size: 2em;
+            }
+
+            .hero-content p {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 20px 20px;
+            }
+
+            .hero-content h1 {
+                font-size: 1.8em;
+            }
+
+            .hero-content p {
+                font-size: 1em;
+            }
+        }
+
+        .search-bar {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .search-bar input[type="text"] {
+            width: 80%;
+            max-width: 600px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
+        }
+
+        .article-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 0 5px;
+            margin: 0;
+        }
+
+        .article-item {
+            background-color: #fff;
+            flex-grow: 1;
+            box-sizing: border-box;
+            width: calc(33.33% - 90px);
+            /* Default width for larger screens */
+            margin: 30px 20px;
+            border-radius: 7px;
+            box-shadow: 0 0 30px 5px rgba(157, 160, 182, 0.2);
+            /* Gap between articles */
+            transition: transform 0.3s ease;
+        }
+
+        .article-item:hover {
+            transform: scale(1.01);
+        }
+
+        .article-image {
+            width: 100%;
+            padding-bottom: 56.25%;
+            position: relative;
+            background-color: #ddd;
+            overflow: hidden;
+            border-top-left-radius: 7px;
+            border-top-right-radius: 7px;
+        }
+
+        .article-image img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            /* Smooth zoom effect */
+        }
+
+        .article-item:hover .article-image img {
+            transform: translate(-50%, -50%) scale(1.1);
+            /* Zoom image on hover */
+        }
+
+        .article-title {
+            font-size: 23px;
+            font-weight: bold;
+            margin: 20px 17px;
+            margin-bottom: 20px;
+        }
+
+        .article-meta {
+            font-size: 14px;
+            color: #5689f8;
+            margin: 10px 10px;
+        }
+
+        .art {
+            margin: 20px 90px;
+        }
+
+        /* Responsive styles for tablets and phones */
+        @media (max-width: 1024px) {
+            .article-item {
+                width: calc(50% - 10px);
+                margin: 5px 5px;
+                /* 2 articles per row on tablets */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .article-item {
+                width: calc(50% - 10px);
+                margin: 5px 5px;
+                /* 2 articles per row on mobile */
+            }
+
+            .art {
+                margin: 0px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .article-item {
+                width: 100%;
+                /* 1 article per row on mobile portrait */
+            }
+
+            .search-bar input[type="text"] {
+                width: 95%;
+            }
+
+            .art {
+                margin: 0px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html"><img src="logo/logo.png" alt="Logo"></a>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Verdaily</h1>
+            <p style="font-size: 22px; font-weight: 200;">Engage with articles on science and business,<br> focusing on innovations, succesful business stories, casestudies,<br> and future trends.<br>
+
+        </div>
+    </section>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search for articles...">
+    </div>
+    <div class="art">
+        <section class="article-list" id="article-list">
+            <!-- Articles will be dynamically loaded here -->
+        </section>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const articleList = document.getElementById('article-list');
+            const searchInput = document.getElementById('searchInput');
+
+            fetch('articles.csv')
+                .then(response => response.text())
+                .then(data => {
+                    let articles = parseCSV(data);
+
+                    // Sort articles by latest date first
+                    articles.sort((a, b) => parseDate(b.postDate) - parseDate(a.postDate));
+
+                    renderArticles(articles);
+
+                    searchInput.addEventListener('input', function () {
+                        const query = searchInput.value.toLowerCase();
+                        const filteredArticles = articles.filter(article => {
+                            // Check title, category1, category2, and all tags for the search query
+                            return (
+                                article.title.toLowerCase().includes(query) ||
+                                article.category1.toLowerCase().includes(query) ||
+                                article.category2.toLowerCase().includes(query) ||
+                                (article.tags && article.tags.some(tag => tag.toLowerCase().includes(query)))
+                            );
+                        });
+                        renderArticles(filteredArticles);
+                    });
+                })
+                .catch(error => console.error('Error loading articles:', error));
+
+            function parseCSV(data) {
+                const rows = data.trim().split('\n').slice(1); // Remove the header row
+                return rows.map(row => {
+                    const cols = row.split(',');
+                    const tags = cols.slice(6).filter(tag => tag !== '?'); // Collect all tags from columns starting from index 6
+                    return {
+                        number: cols[0],
+                        title: cols[1] === '?' ? '' : cols[1],
+                        imageSrc: cols[2] === '?' ? 'placeholder.png' : cols[2],
+                        postDate: cols[3] === '?' ? '01-01-1970' : cols[3], // Set a default date if unknown
+                        category1: cols[4] === '?' ? '' : cols[4],
+                        category2: cols[5] === '?' ? '' : cols[5],
+                        tags: tags.length > 0 ? tags : null // Include tags in the article object
+                    };
+                });
+            }
+
+            function parseDate(dateStr) {
+                const [day, month, year] = dateStr.split('-').map(num => parseInt(num, 10));
+                return new Date(year, month - 1, day);
+            }
+
+            function renderArticles(articles) {
+                articleList.innerHTML = '';
+                articles.forEach(article => {
+                    const articleItem = createArticleItem(article);
+                    articleList.appendChild(articleItem);
+                });
+            }
+
+            function createArticleItem(article) {
+                const articleItem = document.createElement('div');
+                articleItem.classList.add('article-item');
+                articleItem.innerHTML = `
+                    <div class="article-image">
+                        <img src="${article.imageSrc}" alt="${article.title}">
+                    </div>
+                    <div class="article-title">${article.title}</div>
+                    <div class="article-meta">${formatDate(article.postDate)} | ${article.category1} ${article.category2 ? '| ' + article.category2 : ''}</div>
+                `;
+
+                articleItem.addEventListener('click', function () {
+                    window.location.href = `article.html?article=${article.number}`;
+                });
+
+                return articleItem;
+            }
+
+            function formatDate(dateStr) {
+                // Optional: Format the date to a more readable format if desired
+                const [day, month, year] = dateStr.split('-');
+                return `${day}-${month}-${year}`;
+            }
+        });
+    </script>
+</body>
+
+</html>
