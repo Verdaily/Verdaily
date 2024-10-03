@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Read the latest articles on business and science.">
-    <title>Verdaily</title>
+    <title>History - Verdaily</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -124,7 +123,7 @@
         /* Hero Section */
         .hero {
             background-color: #f4f8fc;
-            padding: 80px 200px;
+            padding: 20px 0px;
             text-align: center;
         }
 
@@ -237,7 +236,6 @@
             color: #5689f8;
             margin: 0 20px 20px 20px;
         }
-        
 
         /* Responsive Styles */
         @media (max-width: 1200px) {
@@ -399,97 +397,53 @@
             <a href="about.html">About Us</a>
         </div>
     </header>
-    <!-- <hr width="90%"> -->
-
-    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Welcome to Verdaily</h1>
-            <p style="font-size: 22px; font-weight: 200;">Engage with articles on science and business,<br> focusing on
-                innovations, successful business stories, case studies,<br> and future trends.<br>
-            </p>
+            <h1>Recently visited</h1>
         </div>
     </section>
-
-    <!-- Search Bar -->
-    <div class="search-bar">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="searchInput" placeholder="Search for articles...">
-    </div>
     <div class="art">
         <section class="article-list" id="article-list">
             <!-- Articles will be dynamically loaded here -->
         </section>
     </div>
-    <footer style="text-align: center; padding: 10px; background-color: #222; color: #999999;font-size: 1.2rem">
-        <p>
-            <a href="privacy-policy.html" style="color: #4c74af; text-decoration: none;">Privacy Policy</a> | 
-            <a href="terms-and-conditions.html" style="color: #4c74af; text-decoration: none;">Terms and Conditions</a> | 
-            <a href="contact.html" style="color: #4c74af; text-decoration: none;">Contact Us</a>
-        </p>
-        <p>&copy; 2024 Verdaily. All rights reserved.</p>
-    </footer>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const articleList = document.getElementById('article-list');
-            const searchInput = document.getElementById('searchInput');
-
-            fetch('articles.csv')
-                .then(response => response.text())
-                .then(data => {
-                    let articles = parseCSV(data);
-
-                    // Sort articles by latest date first
-                    articles.sort((a, b) => parseDate(b.postDate) - parseDate(a.postDate));
-
-                    renderArticles(articles);
-
-                    searchInput.addEventListener('input', function () {
-                        const query = searchInput.value.toLowerCase();
-                        const filteredArticles = articles.filter(article => {
-                            // Check title, category1, category2, and all tags for the search query
-                            return (
-                                article.title.toLowerCase().includes(query) ||
-                                article.category1.toLowerCase().includes(query) ||
-                                article.category2.toLowerCase().includes(query) ||
-                                (article.tags && article.tags.some(tag => tag.toLowerCase().includes(query)))
-                            );
-                        });
-                        renderArticles(filteredArticles);
+            const history = JSON.parse(localStorage.getItem('articleHistory')) || [];
+    
+            // Limit to last 36 articles and reverse the order for latest first
+            const recentArticles = history.slice(-36).reverse(); // Reverse the array here
+    
+            recentArticles.forEach(articleNumber => {
+                fetch('articles.csv')
+                    .then(response => response.text())
+                    .then(data => {
+                        const articles = parseCSV(data);
+                        const article = articles.find(a => a.number === articleNumber);
+                        if (article) {
+                            const articleItem = createArticleItem(article);
+                            articleList.appendChild(articleItem);
+                        }
                     });
-                })
-                .catch(error => console.error('Error loading articles:', error));
-
+            });
+    
             function parseCSV(data) {
                 const rows = data.trim().split('\n').slice(1); // Remove the header row
                 return rows.map(row => {
                     const cols = row.split(',');
-                    const tags = cols.slice(6).filter(tag => tag !== '?'); // Collect all tags from columns starting from index 6
                     return {
                         number: cols[0],
                         title: cols[1] === '?' ? '' : cols[1],
                         imageSrc: cols[2] === '?' ? 'placeholder.png' : cols[2],
-                        postDate: cols[3] === '?' ? '01-01-1970' : cols[3], // Set a default date if unknown
+                        postDate: cols[3] === '?' ? '01-01-1970' : cols[3],
                         category1: cols[4] === '?' ? '' : cols[4],
                         category2: cols[5] === '?' ? '' : cols[5],
-                        tags: tags.length > 0 ? tags : null // Include tags in the article object
                     };
                 });
             }
-
-            function parseDate(dateStr) {
-                const [day, month, year] = dateStr.split('-').map(num => parseInt(num, 10));
-                return new Date(year, month - 1, day);
-            }
-
-            function renderArticles(articles) {
-                articleList.innerHTML = '';
-                articles.forEach(article => {
-                    const articleItem = createArticleItem(article);
-                    articleList.appendChild(articleItem);
-                });
-            }
-
+    
             function createArticleItem(article) {
                 const articleItem = document.createElement('div');
                 articleItem.classList.add('article-item');
@@ -498,62 +452,59 @@
                         <img src="${article.imageSrc}" alt="${article.title}">
                     </div>
                     <div class="article-title">${article.title}</div>
-                    <div class="article-meta">${formatDate(article.postDate)} | ${article.category1} ${article.category2 ? '| ' + article.category2 : ''}</div>
+                    <div class="article-meta">${article.postDate} | ${article.category1} ${article.category2 ? '| ' + article.category2 : ''}</div>
                 `;
-
+    
                 articleItem.addEventListener('click', function () {
                     window.location.href = `article.html?article=${article.number}`;
                 });
-
+    
                 return articleItem;
             }
-
-            function formatDate(dateStr) {
-                // Optional: Format the date to a more readable format if desired
-                const [day, month, year] = dateStr.split('-');
-                return `${day}-${month}-${year}`;
-            }
-
-            // Hamburger Menu Functionality
-            const hamburger = document.querySelector('.hamburger');
-            const dropdownMenu = document.querySelector('.dropdown-menu');
-
-            hamburger.addEventListener('click', function (e) {
-                e.stopPropagation(); // Prevent the click from bubbling up to the window
-                dropdownMenu.classList.toggle('show');
-            });
-
-            // Close the dropdown menu when clicking outside
-            window.addEventListener('click', function (e) {
-                if (!hamburger.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                    dropdownMenu.classList.remove('show');
-                }
-            });
-
-            // Close menu on navigation link click
-            const dropdownLinks = document.querySelectorAll('.dropdown-menu a');
-            dropdownLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    dropdownMenu.classList.remove('show');
-                });
-            });
-
-            // Accessibility Enhancements (Optional)
-            hamburger.addEventListener('keydown', function (e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    dropdownMenu.classList.toggle('show');
-                }
-            });
-
-            // Close menu with Escape key (Optional)
-            window.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape') {
-                    dropdownMenu.classList.remove('show');
-                }
-            });
         });
     </script>
+    <!-- hamburger navar -->
+    <script>
+        // Hamburger Menu Functionality
+        const hamburger = document.querySelector('.hamburger');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+
+        hamburger.addEventListener('click', function (e) {
+            e.stopPropagation(); // Prevent the click from bubbling up to the window
+            dropdownMenu.classList.toggle('show');
+        });
+
+        // Close the dropdown menu when clicking outside
+        window.addEventListener('click', function (e) {
+            if (!hamburger.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+
+        // Close menu on navigation link click
+        const dropdownLinks = document.querySelectorAll('.dropdown-menu a');
+        dropdownLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                dropdownMenu.classList.remove('show');
+            });
+        });
+
+        // Accessibility Enhancements (Optional)
+        hamburger.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                dropdownMenu.classList.toggle('show');
+            }
+        });
+
+        // Close menu with Escape key (Optional)
+        window.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+    </script>
+    
 </body>
 
 </html>
