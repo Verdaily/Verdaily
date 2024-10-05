@@ -4,85 +4,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Read the latest articles on business and science.">
-    <title>Verdaily</title>
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <title>Similar Articles</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome for Bookmark Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="icon" href="logo/favicon.png" type="image/png">
 </head>
 
 <body>
-    <!-- Navbar Placeholder -->
-    <div id="navbar-placeholder"></div> <!-- This will be replaced by navbar.html -->
-
-    <!-- Hero Section
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Welcome to Verdaily</h1>
-            <p style="font-size: 22px; font-weight: 200;">Engage with articles on science and business,<br> focusing on
-                innovations, successful business stories, case studies,<br> and future trends.<br>
-            </p>
-        </div>
-    </section> -->
-
-    <!-- Search Bar -->
-    <div class="search-bar">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="searchInput" placeholder="Search for articles...">
-    </div>
-    <div class="art">
-        <section class="article-list" id="article-list">
-            <!-- Articles will be dynamically loaded here -->
+    <!-- Similar Articles Section -->
+    <div class="similar-articles">
+        <h2>Similar Articles</h2>
+        <section class="article-list" id="similar-article-list">
+            <!-- Similar Articles will be dynamically loaded here -->
         </section>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const articleList = document.getElementById('article-list');
-            const searchInput = document.getElementById('searchInput');
+            const similarArticleList = document.getElementById('similar-article-list');
 
+            // Retrieve current article's tags from localStorage
+            const currentArticleTags = JSON.parse(localStorage.getItem('currentArticleTags')) || [];
+            const currentArticleNumber = localStorage.getItem('currentArticleNumber');
+
+            if (currentArticleTags.length === 0) {
+                similarArticleList.innerHTML = '<p>No similar articles found.</p>';
+                return;
+            }
+
+            // Fetch articles.csv to get all articles
             fetch('articles.csv')
                 .then(response => response.text())
                 .then(data => {
                     let articles = parseCSV(data);
 
-                    // Sort articles by latest date first
-                    articles.sort((a, b) => parseDate(b.postDate) - parseDate(a.postDate));
-
-                    renderArticles(articles);
-
-                    searchInput.addEventListener('input', function () {
-                        const query = searchInput.value.toLowerCase();
-                        const filteredArticles = articles.filter(article => {
-                            // Check title, category1, category2, and all tags for the search query
-                            return (
-                                article.title.toLowerCase().includes(query) ||
-                                article.category1.toLowerCase().includes(query) ||
-                                article.category2.toLowerCase().includes(query) ||
-                                (article.tags && article.tags.some(tag => tag.toLowerCase().includes(query)))
-                            );
-                        });
-                        renderArticles(filteredArticles);
+                    // Filter articles that share at least one tag with current article and exclude the current article
+                    const similarArticles = articles.filter(article => {
+                        if (article.number === currentArticleNumber) return false;
+                        if (!article.tags) return false;
+                        return article.tags.some(tag => currentArticleTags.includes(tag.toLowerCase()));
                     });
+
+                    if (similarArticles.length === 0) {
+                        similarArticleList.innerHTML = '<p>No similar articles found.</p>';
+                        return;
+                    }
+
+                    // Sort similar articles by latest date first
+                    similarArticles.sort((a, b) => parseDate(b.postDate) - parseDate(a.postDate));
+
+                    renderArticles(similarArticles);
                 })
-                .catch(error => console.error('Error loading articles:', error));
+                .catch(error => {
+                    console.error('Error loading articles:', error);
+                    similarArticleList.innerHTML = '<p>Error loading similar articles.</p>';
+                });
 
             function parseCSV(data) {
                 const rows = data.trim().split('\n').slice(1); // Remove the header row
                 return rows.map(row => {
                     const cols = row.split(',');
-                    const tags = cols.slice(6).filter(tag => tag !== '?'); // Collect all tags from columns starting from index 6
+                    const tags = cols.slice(6).filter(tag => tag !== '?' && tag.trim() !== '').map(tag => tag.trim().toLowerCase());
                     return {
                         number: cols[0],
-                        title: cols[1] === '?' ? '' : cols[1],
-                        imageSrc: cols[2] === '?' ? 'placeholder.png' : cols[2],
-                        postDate: cols[3] === '?' ? '01-01-1970' : cols[3], // Set a default date if unknown
-                        category1: cols[4] === '?' ? '' : cols[4],
+                        title: cols[1] === '?' ? 'Untitled Article' : cols[1],
+                        imageSrc: cols[2] === '?' ? 'images/placeholder.png' : cols[2],
+                        postDate: cols[3] === '?' ? '01-01-1970' : cols[3],
+                        category1: cols[4] === '?' ? 'Uncategorized' : cols[4],
                         category2: cols[5] === '?' ? '' : cols[5],
-                        tags: tags.length > 0 ? tags : null // Include tags in the article object
+                        tags: tags.length > 0 ? tags : null
                     };
                 });
             }
@@ -93,10 +87,10 @@
             }
 
             function renderArticles(articles) {
-                articleList.innerHTML = '';
+                similarArticleList.innerHTML = '';
                 articles.forEach(article => {
                     const articleItem = createArticleItem(article);
-                    articleList.appendChild(articleItem);
+                    similarArticleList.appendChild(articleItem);
                 });
             }
 
@@ -139,7 +133,6 @@
             }
 
             function formatDate(dateStr) {
-                // Optional: Format the date to a more readable format if desired
                 const [day, month, year] = dateStr.split('-');
                 return `${day}-${month}-${year}`;
             }
@@ -186,9 +179,9 @@
                     icon.classList.add('fa-regular', 'fa-bookmark');
                 }
             }
+
         });
-        </script>
-    <script src="navbar.js" defer></script>
+    </script>
 </body>
 
 </html>

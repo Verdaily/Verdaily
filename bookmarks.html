@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your bookmarked articles on Verdaily.">
+    <title>Verdaily - Bookmarks</title>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="icon" href="logo/favicon.png" type="image/png">
+    <style>
+        /* Remove Bookmark Button Styles */
+.remove-bookmark-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5em;
+    color: #ff4d4d; /* Red color for the trash icon */
+    transition: color 0.3s ease;
+}
+
+.remove-bookmark-btn:hover {
+    color: #cc0000; /* Darker red on hover */
+}
+
+/* Ensure the remove button aligns with existing article actions */
+.article-actions {
+    display: flex;
+    align-items: center;
+    padding: 0 20px 20px 0;
+}
+
+/* Adjustments for Smaller Screens */
+@media (max-width: 768px) {
+    .remove-bookmark-btn {
+        font-size: 1.3em;
+    }
+}
+
+@media (max-width: 480px) {
+    .remove-bookmark-btn {
+        font-size: 1.2em;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+    <!-- Navbar Placeholder -->
+    <div id="navbar-placeholder"></div> <!-- This will be replaced by navbar.html -->
+
+    <!-- Page Title -->
+    <h1 style="text-align: center; margin-top: 40px;">Your Bookmarked Articles</h1>
+
+    <!-- Bookmarks Section -->
+    <div class="art">
+        <section class="article-list" id="bookmark-list">
+            <!-- Bookmarked Articles will be dynamically loaded here -->
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const bookmarkList = document.getElementById('bookmark-list');
+
+            const bookmarks = getBookmarks();
+
+            if (bookmarks.length === 0) {
+                bookmarkList.innerHTML = '<p style="text-align: center;">You have no bookmarked articles.</p>';
+            } else {
+                renderBookmarks(bookmarks);
+            }
+
+            function getBookmarks() {
+                const bookmarks = localStorage.getItem('bookmarks');
+                return bookmarks ? JSON.parse(bookmarks) : [];
+            }
+
+            function renderBookmarks(bookmarks) {
+                bookmarkList.innerHTML = '';
+                bookmarks.forEach(article => {
+                    const articleItem = createBookmarkItem(article);
+                    bookmarkList.appendChild(articleItem);
+                });
+            }
+
+            function createBookmarkItem(article) {
+                const articleItem = document.createElement('div');
+                articleItem.classList.add('article-item');
+                articleItem.innerHTML = `
+                    <div class="article-image">
+                        <img src="${article.imageSrc}" alt="${article.title}">
+                    </div>
+                    <div class="article-content">
+                        <div class="article-title">${article.title}</div>
+                        <div class="article-meta">${formatDate(article.postDate)} | ${article.category1}${article.category2 ? ' | ' + article.category2 : ''}</div>
+                    </div>
+                    <div class="article-actions">
+                        <button class="remove-bookmark-btn" title="Remove Bookmark">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+
+                // Handle article click (excluding remove bookmark button)
+                articleItem.addEventListener('click', function (e) {
+                    if (!e.target.closest('.remove-bookmark-btn')) {
+                        window.location.href = `article.html?article=${article.number}`;
+                    }
+                });
+
+                // Handle remove bookmark button click
+                const removeBtn = articleItem.querySelector('.remove-bookmark-btn');
+                removeBtn.addEventListener('click', function (e) {
+                    e.stopPropagation(); // Prevent triggering the article click
+                    removeBookmark(article.number);
+                    articleItem.remove();
+                    if (bookmarkList.children.length === 0) {
+                        bookmarkList.innerHTML = '<p style="text-align: center;">You have no bookmarked articles.</p>';
+                    }
+                });
+
+                return articleItem;
+            }
+
+            function removeBookmark(articleNumber) {
+                let bookmarks = getBookmarks();
+                bookmarks = bookmarks.filter(item => item.number !== articleNumber);
+                localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+            }
+
+            function formatDate(dateStr) {
+                const [day, month, year] = dateStr.split('-');
+                return `${day}-${month}-${year}`;
+            }
+        });
+    </script>
+    <script src="navbar.js" defer></script>
+</body>
+
+</html>

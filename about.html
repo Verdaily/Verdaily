@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Verdaily</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="para.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,62 +15,25 @@
     <style>
         /* Base Styles */
         * {
-            font-family: "Roboto Slab", serif;
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #f4f8fc;
-            line-height: 1.6;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* Header Styles */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            background-color: #f4f8fc;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .logo-container img {
-            width: 100%;
-            max-width: 300px;
-            height: auto;
-        }
-
-        .but {
-            display: flex;
-            gap: 20px;
-        }
-
-        .but .menu button {
-            color: #333333;
-            background: #f4f8fc;
-            font-weight: 600;
-            border: none;
-            height: 48px;
-            width: 160px;
-            font-size: 1.4rem;
-            border-radius: 4px;
-            padding: 10px 0;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .but .menu button:hover {
-            background-color: #e0e7ff;
-            color: #4a77f1;
-        }
-
+               font-family: "Roboto Slab", serif;
+               box-sizing: border-box;
+           }
+   
+           body {
+               display: flex;
+               flex-direction: column;
+               min-height: 100vh;
+               margin: 0;
+               padding: 0;
+               background-color: #f4f8fc;
+   
+           }
+   
+           a {
+               text-decoration: none;
+               color: inherit;
+           }
+   
         /* Content Styles */
         .container {
             max-width: 800px;
@@ -81,32 +46,21 @@
 
         h1, h2 {
             color: #333;
+            font-size: 2rem;
         }
 
         p {
+            font-size: 1.2rem;
             margin-bottom: 1em;
         }
-    </style>
-</head>
-
-<body>
-    <header>
-        <div class="logo-container">
-            <a href="index.html"><img src="logo/logo.png" alt="Verdaily Logo"></a>
-        </div>
-        <div class="but">
-            <div class="history menu">
-                <a href="history.html">
-                    <button>History</button>
-                </a>
-            </div>
-            <div class="about menu">
-                <a href="about.html">
-                    <button>About Us</button>
-                </a>
-            </div>
-        </div>
-    </header>
+           
+       </style>
+   
+   </head>
+   
+   <body>
+      <!-- Navbar Placeholder -->
+    <div id="navbar-placeholder"></div> <!-- This will be replaced by navbar.html -->
 
     <div class="container">
         <img src="logo/favicon.png" alt="verdaily" style="width: 100px; margin-left: 43%;">
@@ -126,6 +80,7 @@
         <h2>Join Us on This Journey</h2>
         <p>We invite you to explore our articles and case studies, and we encourage you to start reading today. Dive into the wealth of knowledge we provide, and let Verdaily be your trusted companion on your journey of discovery in business and science.</p>
     </div>
+     <script src="navbar.js" defer></script>
 </body>
 
 </html>

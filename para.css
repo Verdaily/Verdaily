@@ -1,0 +1,132 @@
+ /* Base Styles */
+ * {
+
+     font-family: "Roboto Slab", serif;
+     box-sizing: border-box;
+ }
+
+ body {
+     display: flex;
+     flex-direction: column;
+     min-height: 100vh;
+     margin: 0;
+     padding: 0;
+     background-color: #f4f8fc;
+
+ }
+
+ a {
+     text-decoration: none;
+     color: inherit;
+ }
+
+ /* Content Styles */
+ .container {
+     max-width: 800px;
+     margin: 20px auto;
+     padding: 20px;
+     background-color: #ffffff;
+     border-radius: 8px;
+     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+ }
+
+ h1,
+ h2,
+ h3,
+ h4 {
+     color: #333;
+ }
+h1{
+    font-size: 2.2rem !important;
+}
+h2 {
+    font-size: 1.9rem !important;
+}
+h3 {
+    font-size: 1.6rem !important;
+}
+ p {
+     color: #525252 !important;
+     font-size: 1.26rem !important;
+     /* margin-bottom: 1em; */
+ }
+
+ ul {
+     font-size: 1.26rem !important;
+ }
+
+ li {
+     color: #525252;
+     list-style: none;
+     font-size: 1.26rem !important;
+ }
+
+ strong {
+    font-size: 1.26rem !important;
+     color: #535353;
+ }
+
+ @media (max-width:768px) {
+    html {
+    font-size: 18px; /* 1.125rem */
+  }
+     h1 {
+         font-size: 2rem !important;
+     }
+
+     h2 {
+         font-size: 1.8rem !important;
+     }
+
+     h3 {
+         font-size: 1.4rem !important;
+     }
+
+     p {
+         font-size: 1.26rem !important;
+     }
+
+     li {
+         font-size: 1.26rem !important;
+     }
+
+     ul {
+         font-size: 1.26rem !important;
+     }
+
+     strong {
+         font-size: 1.26rem;
+     }
+
+ }
+
+ @media (max-width:480px) {
+    h1 {
+        font-size: 1.7rem !important;
+    }
+
+    h2 {
+        font-size: 1.4rem !important;
+    }
+
+    h3 {
+        font-size: 1.2rem !important;
+    }
+
+    p {
+        font-size: 1.12rem !important;
+    }
+
+    li {
+        font-size: 1.12rem !important;
+    }
+
+    ul {
+        font-size: 1.12rem !important;
+    }
+
+    strong {
+        font-size: 1.12rem !important;
+    }
+
+}

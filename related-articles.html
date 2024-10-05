@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Related Articles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="icon" href="logo/favicon.png" type="image/png">
+    <style>
+        /* Base Styles */
+        * {
+            font-family: "Roboto Slab", serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f8fc;
+        }
+
+        .art {
+            margin: 40px 0; /* Adjust margin as needed */
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .article-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .article-item {
+            background-color: #fff;
+            flex: 1 1 calc(33.33% - 40px);
+            margin: 20px;
+            border-radius: 7px;
+            box-shadow: 0 0 30px 5px rgba(157, 160, 182, 0.2);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .article-item:hover {
+            transform: scale(1.01);
+        }
+
+        .article-image {
+            width: 100%;
+            padding-bottom: 56.25%;
+            position: relative;
+            background-color: #ddd;
+            overflow: hidden;
+            border-top-left-radius: 7px;
+            border-top-right-radius: 7px;
+        }
+
+        .article-image img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .article-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 20px;
+            color: #333;
+        }
+
+        .article-meta {
+            font-size: 0.9em;
+            color: #5689f8;
+            margin: 0 20px 20px 20px;
+        }
+
+        @media (max-width: 768px) {
+            .article-item {
+                flex: 1 1 calc(50% - 40px); /* Two items on smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .article-item {
+                flex: 1 1 100%; /* One item on mobile */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="art">
+        <h2>Related Articles</h2>
+        <section class="article-list" id="related-articles-list">
+            <!-- Related Articles will be dynamically loaded here -->
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const relatedArticlesList = document.getElementById('related-articles-list');
+
+            // Replace with actual tags and categories from the current article
+            const currentTags = JSON.parse(localStorage.getItem('currentTags')) || []; // Fetch from local storage
+            const currentCategories = JSON.parse(localStorage.getItem('currentCategories')) || []; // Fetch from local storage
+
+            fetch('articles.csv')
+                .then(response => response.text())
+                .then(data => {
+                    const articles = parseCSV(data);
+                    const relatedArticles = getRelatedArticles(articles, currentTags, currentCategories);
+                    renderArticles(relatedArticles);
+                })
+                .catch(error => console.error('Error loading articles:', error));
+
+            function parseCSV(data) {
+                const rows = data.trim().split('\n').slice(1);
+                return rows.map(row => {
+                    const cols = row.split(',');
+                    return {
+                        number: cols[0],
+                        title: cols[1],
+                        imageSrc: cols[2] || 'images/placeholder.png',
+                        postDate: cols[3],
+                        category1: cols[4],
+                        category2: cols[5],
+                        tags: cols.slice(6).filter(tag => tag !== '?') // Collect tags
+                    };
+                });
+            }
+
+            function getRelatedArticles(articles, tags, categories) {
+                const related = [];
+                for (const article of articles) {
+                    const hasSameTag = article.tags.some(tag => tags.includes(tag));
+                    const hasSameCategory = categories.includes(article.category1) || categories.includes(article.category2);
+                    if (hasSameTag || hasSameCategory) {
+                        related.push(article);
+                    }
+                }
+                return related.slice(0, 12); // Limit to 12 articles
+            }
+
+            function renderArticles(articles) {
+                relatedArticlesList.innerHTML = '';
+                articles.forEach(article => {
+                    const articleItem = createArticleItem(article);
+                    relatedArticlesList.appendChild(articleItem);
+                });
+            }
+
+            function createArticleItem(article) {
+                const articleItem = document.createElement('div');
+                articleItem.classList.add('article-item');
+                articleItem.innerHTML = `
+                    <div class="article-image">
+                        <img src="${article.imageSrc}" alt="${article.title}">
+                    </div>
+                    <div class="article-title">${article.title}</div>
+                    <div class="article-meta">${formatDate(article.postDate)} | ${article.category1} ${article.category2 ? '| ' + article.category2 : ''}</div>
+                `;
+                articleItem.addEventListener('click', function () {
+                    window.location.href = `article.html?article=${article.number}`;
+                });
+                return articleItem;
+            }
+
+            function formatDate(dateStr) {
+                const [day, month, year] = dateStr.split('-');
+                return `${day}-${month}-${year}`;
+            }
+        });
+    </script>
+    <script src="related-articles.js"></script>
+</body>
+
+</html>
