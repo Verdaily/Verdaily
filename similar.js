@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const articleList = document.getElementById('article-list');
     const searchInput = document.getElementById('searchInput');
-    const spinner = document.getElementById('spinner'); // Spinner element
 
     // Get the article number from the URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -17,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const currentTags = currentArticle ? currentArticle.tags : [];
 
             // Filter articles by current article's tags
-            let filteredArticles = articles.filter(article => {
+            const filteredArticles = articles.filter(article => {
                 return article.number !== currentArticleNumber && // Exclude the current article
                     currentTags.some(tag => article.tags && article.tags.includes(tag));
             });
@@ -29,22 +28,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
             searchInput.addEventListener('input', function () {
                 const query = searchInput.value.toLowerCase();
-                showSpinner(); // Show the spinner while searching
-
-                // Use a timeout to avoid firing the search on every keystroke
-                setTimeout(() => {
-                    const searchFilteredArticles = filteredArticles.filter(article => {
-                        // Check title, category1, category2, and all tags for the search query
-                        return (
-                            article.title.toLowerCase().includes(query) ||
-                            article.category1.toLowerCase().includes(query) ||
-                            article.category2.toLowerCase().includes(query) ||
-                            (article.tags && article.tags.some(tag => tag.toLowerCase().includes(query)))
-                        );
-                    });
-                    renderArticles(searchFilteredArticles);
-                    hideSpinner(); // Hide the spinner after rendering
-                }, 300); // Delay for search (300 ms)
+                const searchFilteredArticles = filteredArticles.filter(article => {
+                    // Check title, category1, category2, and all tags for the search query
+                    return (
+                        article.title.toLowerCase().includes(query) ||
+                        article.category1.toLowerCase().includes(query) ||
+                        article.category2.toLowerCase().includes(query) ||
+                        (article.tags && article.tags.some(tag => tag.toLowerCase().includes(query)))
+                    );
+                });
+                renderArticles(searchFilteredArticles);
             });
         })
         .catch(error => console.error('Error loading articles:', error));
@@ -70,10 +63,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const [day, month, year] = dateStr.split('-').map(num => parseInt(num, 10));
         return new Date(year, month - 1, day);
     }
-
     function renderArticles(articles) {
         articleList.innerHTML = '';
-        articles.forEach(article => {
+        // Only display the first 18 articles
+        const limitedArticles = articles.slice(0, 18);
+        limitedArticles.forEach(article => {
             const articleItem = createArticleItem(article);
             articleList.appendChild(articleItem);
         });
@@ -83,19 +77,19 @@ document.addEventListener('DOMContentLoaded', function () {
         const articleItem = document.createElement('div');
         articleItem.classList.add('article-item');
         articleItem.innerHTML = `
-                <div class="article-image">
-                    <img src="${article.imageSrc}" alt="${article.title}">
-                </div>
-                <div class="article-content">
-                    <div class="article-title">${article.title}</div>
-                    <div class="article-meta">${formatDate(article.postDate)} | ${article.category1}${article.category2 ? ' | ' + article.category2 : ''}</div>
-                </div>
-                <div class="article-actions">
-                    <button class="bookmark-btn" title="Bookmark Article">
-                        <i class="fa-regular fa-bookmark"></i>
-                    </button>
-                </div>
-            `;
+            <div class="article-image">
+                <img src="${article.imageSrc}" alt="${article.title}">
+            </div>
+            <div class="article-content">
+                <div class="article-title">${article.title}</div>
+                <div class="article-meta">${formatDate(article.postDate)} | ${article.category1}${article.category2 ? ' | ' + article.category2 : ''}</div>
+            </div>
+            <div class="article-actions">
+                <button class="bookmark-btn" title="Bookmark Article">
+                    <i class="fa-regular fa-bookmark"></i>
+                </button>
+            </div>
+        `;
 
         // Handle article click (excluding bookmark button)
         articleItem.addEventListener('click', function (e) {
@@ -123,17 +117,9 @@ document.addEventListener('DOMContentLoaded', function () {
         return `${day}-${month}-${year}`;
     }
 
-    // Show the spinner at the bottom
-    function showSpinner() {
-        spinner.style.display = 'block'; // Show the spinner
-    }
-
-    // Hide the spinner once loading is done
-    function hideSpinner() {
-        spinner.style.display = 'none'; // Hide the spinner
-    }
-
     // Bookmark Functionality
+
+    // Function to toggle bookmark state
     function toggleBookmark(article, button) {
         let bookmarks = getBookmarks();
         const articleIndex = bookmarks.findIndex(item => item.number === article.number);
@@ -174,4 +160,3 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 });
-
