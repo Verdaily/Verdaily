@@ -162,6 +162,7 @@
                 });
             }
     
+            // Function to create the article item
             function createArticleItem(article) {
     const articleItem = document.createElement('div');
     articleItem.classList.add('article-item');
@@ -179,27 +180,26 @@
             </button>
         </div>
     `;
-
-    // Handle article click (excluding bookmark button)
-    articleItem.addEventListener('click', function (e) {
-        if (!e.target.closest('.bookmark-btn')) {
-            window.location.href = `article.html?article=${article.number}`;
-        }
-    });
-
-    // Handle bookmark button click
-    const bookmarkBtn = articleItem.querySelector('.bookmark-btn');
-    bookmarkBtn.addEventListener('click', function (e) {
-        e.stopPropagation(); // Prevent triggering the article click
-        toggleBookmark(article, bookmarkBtn);
-    });
-
-    // Initialize bookmark state
-    updateBookmarkIcon(article, bookmarkBtn);
-
-    return articleItem;
-}
-
+    
+                // Handle article click (excluding bookmark button)
+                articleItem.addEventListener('click', function (e) {
+                    if (!e.target.closest('.bookmark-btn')) {
+                        window.location.href = `article.html?article=${article.number}`;
+                    }
+                });
+    
+                // Handle bookmark button click
+                const bookmarkBtn = articleItem.querySelector('.bookmark-btn');
+                bookmarkBtn.addEventListener('click', function (e) {
+                    e.stopPropagation(); // Prevent triggering the article click
+                    toggleBookmark(article, bookmarkBtn);
+                });
+    
+                // Initialize bookmark state
+                updateBookmarkIcon(article, bookmarkBtn);
+    
+                return articleItem;
+            }
     
             // Function to format date (optional)
             function formatDate(dateStr) {
