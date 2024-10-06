@@ -369,65 +369,72 @@
     </div>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                const articleTitle = document.getElementById('article-titles');
-                const articleMeta = document.getElementById('article-meta');
-                const articleImage = document.getElementById('article-images');
-                const articleText = document.getElementById('article-text');
-                let currentLanguage = 'english'; // Default language is English
+    const articleList = document.getElementById('article-list');
+    let articles = []; // To store all the articles
+    let articlesPerPage = 10; // Number of articles to load per batch
+    let currentPage = 1; // To track the current batch
 
-                // Function to get URL parameter
-                function getQueryParam(param) {
-                    const urlParams = new URLSearchParams(window.location.search);
-                    return urlParams.get(param);
-                }
+    // Fetch the articles initially
+    fetch('articles.csv')
+        .then(response => response.text())
+        .then(data => {
+            articles = parseCSV(data); // Parse the CSV data into articles
+            loadArticles(); // Load the first batch of articles
+        })
+        .catch(error => console.error('Error loading articles:', error));
 
-                const articleNumber = getQueryParam('article');
+    // Function to parse CSV data
+    function parseCSV(data) {
+        const rows = data.trim().split('\n').slice(1); // Skip header
+        return rows.map(row => {
+            const cols = row.split(',');
+            return {
+                number: cols[0],
+                title: cols[1] === '?' ? '' : cols[1],
+                imageSrc: cols[2] === '?' ? 'placeholder.png' : cols[2],
+                postDate: cols[3] === '?' ? '01-01-1970' : cols[3],
+                category1: cols[4] === '?' ? '' : cols[4],
+                category2: cols[5] === '?' ? '' : cols[5],
+            };
+        });
+    }
 
-                if (!articleNumber) {
-                    articleTitle.textContent = 'Article Not Found';
-                    document.title = 'Article Not Found'; // Update the page title
-                    articleMeta.textContent = '';
-                    articleText.textContent = 'No article specified. Please return to the homepage.';
-                    articleImage.src = 'images/placeholder.png';
-                    return;
-                }
+    // Function to render articles
+    function loadArticles() {
+        const startIndex = (currentPage - 1) * articlesPerPage;
+        const endIndex = startIndex + articlesPerPage;
+        const articlesToLoad = articles.slice(startIndex, endIndex);
 
-                // Fetch articles.csv to get metadata
-                fetch('articles.csv')
-                    .then(response => response.text())
-                    .then(data => {
-                        const articles = parseCSV(data);
-                        const article = articles.find(a => a.number === articleNumber);
+        articlesToLoad.forEach(article => {
+            const articleItem = createArticleItem(article);
+            articleList.appendChild(articleItem);
+        });
 
-                        if (!article) {
-                            articleTitle.textContent = 'Article Not Found';
-                            document.title = 'Article Not Found'; // Update the page title
-                            articleMeta.textContent = '';
-                            articleText.textContent = 'The specified article does not exist.';
-                            articleImage.src = 'images/placeholder.png';
-                            return;
-                        }
+        currentPage++; // Increment the page for the next batch
+    }
 
-                        // Update metadata
-                        articleTitle.textContent = article.title || 'Untitled Article';
-                        document.title = article.title || 'Untitled Article'; // Update the page title
-                        articleMeta.textContent = `${article.postDate} | ${article.category1}${article.category2 ? ' | ' + article.category2 : ''}`;
+    // Function to create article item
+    function createArticleItem(article) {
+        const articleItem = document.createElement('div');
+        articleItem.classList.add('article-item');
+        articleItem.innerHTML = `
+            <div class="article-image">
+                <img src="${article.imageSrc}" alt="${article.title}">
+            </div>
+            <div class="article-content">
+                <div class="article-title">${article.title}</div>
+                <div class="article-meta">${article.postDate} | ${article.category1}${article.category2 ? ' | ' + article.category2 : ''}</div>
+            </div>
+        `;
+        return articleItem;
+    }
 
-                        // Update image
-                        articleImage.src = article.imageSrc || 'images/placeholder.png';
-                        articleImage.alt = article.title || 'Article Image';
-
-                        // Fetch article content based on the current language
-                        fetchArticleContent(article.number);
-                    })
-                    .catch(error => {
-                        console.error('Error loading articles:', error);
-                        articleTitle.textContent = 'Error';
-                        document.title = 'Error'; // Update the page title
-                        articleMeta.textContent = '';
-                        articleText.textContent = 'An error occurred while loading the article.';
-                        articleImage.src = 'images/placeholder.png';
-                    });
+    // Infinite scroll functionality
+    window.addEventListener('scroll', () => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+            loadArticles(); // Load more articles when nearing the bottom
+        }
+    });;
 
                 // Function to parse CSV
                 function parseCSV(data) {
