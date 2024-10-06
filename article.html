@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="para.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
     <!-- Font Awesome for Social Media Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +21,8 @@
 
     <style>
         /* Basic Reset */
-        * {font-family: "Nunito", system-ui;
+        * {
+            font-family: "Nunito", system-ui;
             /* box-sizing: border-box; */
             margin: 0;
             padding: 0;
@@ -136,15 +138,19 @@
             padding: 0;
             color: #525252;
         }
+
         strong {
             line-height: 1;
         }
+
         br {
             line-height: .4;
         }
-        ul{
+
+        ul {
             line-height: 1;
         }
+
         li {
             line-height: 1;
             color: #525252;
@@ -260,6 +266,49 @@
             }
 
         }
+
+        .lang {
+            display: flex;
+            justify-content: center;
+            /* Center the buttons horizontally */
+            margin: 20px 0;
+            /* Add some vertical spacing */
+        }
+
+        .lang button {
+            background-color: #007BFF;
+            /* Bootstrap primary color */
+            color: white;
+            /* Text color */
+            border: none;
+            /* Remove default border */
+            border-radius: 5px;
+            /* Rounded corners */
+            padding: 10px 20px;
+            /* Top/bottom and left/right padding */
+            font-size: 16px;
+            /* Increase font size */
+            cursor: pointer;
+            /* Change cursor on hover */
+            transition: background-color 0.3s ease, transform 0.2s;
+            /* Smooth transition for hover effects */
+            margin: 0 10px;
+            /* Add horizontal margin between buttons */
+        }
+
+        .lang button:hover {
+            background-color: #0056b3;
+            /* Darker shade on hover */
+            transform: scale(1.05);
+            /* Slightly enlarge the button on hover */
+        }
+
+        .lang button:focus {
+            outline: none;
+            /* Remove outline on focus */
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+            /* Add a shadow for better visibility */
+        }
     </style>
 
 </head>
@@ -273,6 +322,10 @@
                 <h1 class="article-title" id="article-title">Loading...</h1>
                 <div class="article-meta" id="article-meta">Loading...</div>
                 <img src="images/placeholder.png" alt="Article Image" class="article-image" id="article-image">
+                <div class="lang">
+                    <button id="english-btn">English</button>
+                    <button id="hindi-btn">Hindi</button>
+                </div>
                 <div class="article-text" id="article-text">Loading content...</div>
             </div>
         </div>
@@ -295,7 +348,7 @@
 
     </div> -->
 
-    <!-- <footer>
+        <!-- <footer>
         <p>
             <a href="privacy-policy.html">Privacy Policy</a> | 
             <a href="terms-and-conditions.html">Terms and Conditions</a> | 
@@ -304,58 +357,91 @@
         <p class="copyright">&copy; 2024 Verdaily. All rights reserved.</p>
     </footer> -->
 
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const articleTitle = document.getElementById('article-title');
+                const articleMeta = document.getElementById('article-meta');
+                const articleImage = document.getElementById('article-image');
+                const articleText = document.getElementById('article-text');
+                let currentLanguage = 'english'; // Default language is English
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const articleTitle = document.getElementById('article-title');
-            const articleMeta = document.getElementById('article-meta');
-            const articleImage = document.getElementById('article-image');
-            const articleText = document.getElementById('article-text');
+                // Function to get URL parameter
+                function getQueryParam(param) {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    return urlParams.get(param);
+                }
 
-            // Function to get URL parameter
-            function getQueryParam(param) {
-                const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get(param);
-            }
+                const articleNumber = getQueryParam('article');
 
-            const articleNumber = getQueryParam('article');
+                if (!articleNumber) {
+                    articleTitle.textContent = 'Article Not Found';
+                    document.title = 'Article Not Found'; // Update the page title
+                    articleMeta.textContent = '';
+                    articleText.textContent = 'No article specified. Please return to the homepage.';
+                    articleImage.src = 'images/placeholder.png';
+                    return;
+                }
 
-            if (!articleNumber) {
-                articleTitle.textContent = 'Article Not Found';
-                document.title = 'Article Not Found'; // Update the page title
-                articleMeta.textContent = '';
-                articleText.textContent = 'No article specified. Please return to the homepage.';
-                articleImage.src = 'images/placeholder.png';
-                return;
-            }
+                // Fetch articles.csv to get metadata
+                fetch('articles.csv')
+                    .then(response => response.text())
+                    .then(data => {
+                        const articles = parseCSV(data);
+                        const article = articles.find(a => a.number === articleNumber);
 
-            // Fetch articles.csv to get metadata
-            fetch('articles.csv')
-                .then(response => response.text())
-                .then(data => {
-                    const articles = parseCSV(data);
-                    const article = articles.find(a => a.number === articleNumber);
+                        if (!article) {
+                            articleTitle.textContent = 'Article Not Found';
+                            document.title = 'Article Not Found'; // Update the page title
+                            articleMeta.textContent = '';
+                            articleText.textContent = 'The specified article does not exist.';
+                            articleImage.src = 'images/placeholder.png';
+                            return;
+                        }
 
-                    if (!article) {
-                        articleTitle.textContent = 'Article Not Found';
-                        document.title = 'Article Not Found'; // Update the page title
+                        // Update metadata
+                        articleTitle.textContent = article.title || 'Untitled Article';
+                        document.title = article.title || 'Untitled Article'; // Update the page title
+                        articleMeta.textContent = `${article.postDate} | ${article.category1}${article.category2 ? ' | ' + article.category2 : ''}`;
+
+                        // Update image
+                        articleImage.src = article.imageSrc || 'images/placeholder.png';
+                        articleImage.alt = article.title || 'Article Image';
+
+                        // Fetch article content based on the current language
+                        fetchArticleContent(article.number);
+                    })
+                    .catch(error => {
+                        console.error('Error loading articles:', error);
+                        articleTitle.textContent = 'Error';
+                        document.title = 'Error'; // Update the page title
                         articleMeta.textContent = '';
-                        articleText.textContent = 'The specified article does not exist.';
+                        articleText.textContent = 'An error occurred while loading the article.';
                         articleImage.src = 'images/placeholder.png';
-                        return;
-                    }
+                    });
 
-                    // Update metadata
-                    articleTitle.textContent = article.title || 'Untitled Article';
-                    document.title = article.title || 'Untitled Article'; // Update the page title
-                    articleMeta.textContent = `${article.postDate} | ${article.category1}${article.category2 ? ' | ' + article.category2 : ''}`;
+                // Function to parse CSV
+                function parseCSV(data) {
+                    const lines = data.trim().split('\n');
+                    const headers = lines[0].split(',');
 
-                    // Update image
-                    articleImage.src = article.imageSrc || 'images/placeholder.png';
-                    articleImage.alt = article.title || 'Article Image';
+                    return lines.slice(1).map(line => {
+                        const cols = line.split(',');
+                        return {
+                            number: cols[0],
+                            title: cols[1] === '?' ? '' : cols[1],
+                            imageSrc: cols[2] === '?' ? 'images/placeholder.png' : cols[2],
+                            postDate: cols[3] === '?' ? 'Unknown Date' : cols[3],
+                            category1: cols[4] === '?' ? '' : cols[4],
+                            category2: cols[5] === '?' ? '' : cols[5],
+                        };
+                    });
+                }
 
-                    // Fetch article content from .txt file
-                    fetch(`articles/${article.number}.txt`)
+                // Function to fetch article content based on language
+                function fetchArticleContent(articleNumber) {
+                    const articleFile = currentLanguage === 'hindi' ? `${articleNumber}-hindi.txt` : `${articleNumber}.txt`;
+
+                    fetch(`articles/${articleFile}`)
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error('Content not found');
@@ -369,114 +455,100 @@
                             console.error('Error loading article content:', error);
                             articleText.textContent = 'Error loading article content.';
                         });
-                })
-                .catch(error => {
-                    console.error('Error loading articles:', error);
-                    articleTitle.textContent = 'Error';
-                    document.title = 'Error'; // Update the page title
-                    articleMeta.textContent = '';
-                    articleText.textContent = 'An error occurred while loading the article.';
-                    articleImage.src = 'images/placeholder.png';
-                });
-
-            // Function to parse CSV
-            function parseCSV(data) {
-                const lines = data.trim().split('\n');
-                const headers = lines[0].split(',');
-
-                return lines.slice(1).map(line => {
-                    const cols = line.split(',');
-                    return {
-                        number: cols[0],
-                        title: cols[1] === '?' ? '' : cols[1],
-                        imageSrc: cols[2] === '?' ? 'images/placeholder.png' : cols[2],
-                        postDate: cols[3] === '?' ? 'Unknown Date' : cols[3],
-                        category1: cols[4] === '?' ? '' : cols[4],
-                        category2: cols[5] === '?' ? '' : cols[5],
-                    };
-                });
-            }
-        });
-    </script>
-    <!-- socila media -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const articleUrl = window.location.href; // Get the current article URL
-            const articleTitle = document.querySelector('h1').innerText; // Get the article title (adjust this selector as needed)
-
-            // Update WhatsApp share link
-            document.getElementById('whatsapp-share').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(articleTitle)}%20${encodeURIComponent(articleUrl)}`;
-
-            // Update Facebook share link
-            document.getElementById('facebook-share').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}`;
-
-            // Update Twitter share link
-            document.getElementById('twitter-share').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(articleTitle)}&url=${encodeURIComponent(articleUrl)}`;
-
-            // Instagram share link (not a direct share)
-            document.getElementById('instagram-share').href = `https://www.instagram.com/`; // Instagram doesn't allow direct sharing links for articles
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const articleTitle = document.getElementById('article-title');
-            const articleMeta = document.getElementById('article-meta');
-            const articleImage = document.getElementById('article-image');
-            const articleText = document.getElementById('article-text');
-
-            // Function to get URL parameter 
-            function getQueryParam(param) {
-                const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get(param);
-            }
-
-            const articleNumber = getQueryParam('article');
-
-            if (!articleNumber) {
-                // Handle case when no article is specified
-                return;
-            }
-
-            // Track the article visit
-            trackArticleVisit(articleNumber);
-
-            // Fetch articles.csv to get metadata 
-            fetch('articles.csv')
-                .then(response => response.text())
-                .then(data => {
-                    const articles = parseCSV(data);
-                    const article = articles.find(a => a.number === articleNumber);
-                    if (article) {
-                        // Update article details on the page
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading articles:', error);
-                });
-
-            // Function to track article visit
-            function trackArticleVisit(articleNumber) {
-                let history = JSON.parse(localStorage.getItem('articleHistory')) || [];
-
-                // Remove the article if it already exists in the history
-                history = history.filter(article => article !== articleNumber);
-
-                // Add the article to the end of the history
-                history.push(articleNumber);
-
-                // Limit to last 36 visited articles
-                if (history.length > 36) {
-                    history.shift(); // Remove the oldest entry
                 }
 
-                localStorage.setItem('articleHistory', JSON.stringify(history));
-            }
+                // Language button event listeners
+                document.getElementById('english-btn').addEventListener('click', function () {
+                    currentLanguage = 'english'; // Set to English
+                    fetchArticleContent(articleNumber); // Fetch article content again
+                });
 
-            // Add your other functions like parseCSV, etc. here
+                document.getElementById('hindi-btn').addEventListener('click', function () {
+                    currentLanguage = 'hindi'; // Set to Hindi
+                    fetchArticleContent(articleNumber); // Fetch article content again
+                });
+            });
+        </script>
 
-        });
-    </script>
-    <script src="navbar.js"></script>
+        <!-- socila media -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const articleUrl = window.location.href; // Get the current article URL
+                const articleTitle = document.querySelector('h1').innerText; // Get the article title (adjust this selector as needed)
+
+                // Update WhatsApp share link
+                document.getElementById('whatsapp-share').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(articleTitle)}%20${encodeURIComponent(articleUrl)}`;
+
+                // Update Facebook share link
+                document.getElementById('facebook-share').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}`;
+
+                // Update Twitter share link
+                document.getElementById('twitter-share').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(articleTitle)}&url=${encodeURIComponent(articleUrl)}`;
+
+                // Instagram share link (not a direct share)
+                document.getElementById('instagram-share').href = `https://www.instagram.com/`; // Instagram doesn't allow direct sharing links for articles
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const articleTitle = document.getElementById('article-title');
+                const articleMeta = document.getElementById('article-meta');
+                const articleImage = document.getElementById('article-image');
+                const articleText = document.getElementById('article-text');
+
+                // Function to get URL parameter 
+                function getQueryParam(param) {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    return urlParams.get(param);
+                }
+
+                const articleNumber = getQueryParam('article');
+
+                if (!articleNumber) {
+                    // Handle case when no article is specified
+                    return;
+                }
+
+                // Track the article visit
+                trackArticleVisit(articleNumber);
+
+                // Fetch articles.csv to get metadata 
+                fetch('articles.csv')
+                    .then(response => response.text())
+                    .then(data => {
+                        const articles = parseCSV(data);
+                        const article = articles.find(a => a.number === articleNumber);
+                        if (article) {
+                            // Update article details on the page
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading articles:', error);
+                    });
+
+                // Function to track article visit
+                function trackArticleVisit(articleNumber) {
+                    let history = JSON.parse(localStorage.getItem('articleHistory')) || [];
+
+                    // Remove the article if it already exists in the history
+                    history = history.filter(article => article !== articleNumber);
+
+                    // Add the article to the end of the history
+                    history.push(articleNumber);
+
+                    // Limit to last 36 visited articles
+                    if (history.length > 36) {
+                        history.shift(); // Remove the oldest entry
+                    }
+
+                    localStorage.setItem('articleHistory', JSON.stringify(history));
+                }
+
+                // Add your other functions like parseCSV, etc. here
+
+            });
+        </script>
+        <script src="navbar.js"></script>
 
 </body>
 

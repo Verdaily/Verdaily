@@ -224,30 +224,13 @@
 
 
 <h3>Tips for Further Learning</h3>
-<ul>
-  <li><strong>Take Business Courses:</strong> Enroll in online classes or attend workshops to learn more about specific business areas.
-    <ul>
-      <li>Example: Coursera offers courses like "Introduction to Marketing" and "Financial Accounting."</li>
-    </ul>
-  </li>
-  <li><strong>Read Business Books:</strong> Books like "The Lean Startup" by Eric Ries or "Good to Great" by Jim Collins provide great insights.
-    <ul>
-      <li>Indian Example: "Stay Hungry Stay Foolish" by Rashmi Bansal shares stories of successful Indian entrepreneurs.</li>
-    </ul>
-  </li>
-  <li><strong>Follow Business News:</strong> Keep up with the latest trends and news by reading trusted business news sources.
-    <ul>
-      <li>Example: Read The Economic Times or Business Standard for news about Indian businesses.</li>
-    </ul>
-  </li>
-  <li><strong>Network:</strong> Meet business professionals through events, seminars, and online platforms like LinkedIn.
-    <ul>
-      <li>Example: Attend events organized by NASSCOM or local Chambers of Commerce.</li>
-    </ul>
-  </li>
-  <li><strong>Gain Experience:</strong> Get internships or part-time jobs in businesses to gain hands-on experience.
-    <ul>
-      <li>Example: Intern with startups in Bangalore's tech hub to learn about entrepreneurship challenges.</li>
-    </ul>
-  </li>
-</ul>
+
+<p><strong>Take Business Courses:</strong> Enroll in online classes or workshops to learn about specific business areas. For instance, platforms like Coursera offer courses such as "Introduction to Marketing" and "Financial Accounting."</p>
+
+<p><strong>Read Business Books:</strong> Books like "The Lean Startup" by Eric Ries and "Good to Great" by Jim Collins provide valuable insights. An Indian example is "Stay Hungry Stay Foolish" by Rashmi Bansal, which shares stories of successful entrepreneurs in India.</p>
+
+<p><strong>Follow Business News:</strong> Stay updated on trends and news by reading trusted sources. Publications like The Economic Times and Business Standard cover Indian business news.</p>
+
+<p><strong>Network:</strong> Connect with business professionals through events, seminars, and online platforms like LinkedIn. Attend gatherings organized by NASSCOM or local Chambers of Commerce.</p>
+
+<p><strong>Gain Experience:</strong> Seek internships or part-time jobs to gain practical experience, such as interning with startups in Bangalore's tech hub to understand entrepreneurship challenges.</p>

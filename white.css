@@ -502,20 +502,3 @@ footer .copyright {
     }
 }
 
-
-/* Remove the default tap highlight on touch devices */
-* {
-    -webkit-tap-highlight-color: transparent; /* For Safari and older iOS */
-  }
-  
-  /* Prevent default blue outline on buttons and links */
-  button, a {
-    outline: none; /* Removes the focus outline */
-  }
-  
-  /* Optional: Add custom styles for better user experience */
-  button:focus, a:focus {
-    outline: none; /* Removes the outline when focused */
-    box-shadow: none; /* Removes any box-shadow */
-  }
-  
