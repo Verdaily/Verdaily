@@ -164,22 +164,22 @@
     
             // Function to create the article item
             function createArticleItem(article) {
-    const articleItem = document.createElement('div');
-    articleItem.classList.add('article-item');
-    articleItem.innerHTML = `
-        <div class="article-image">
-            <img src="${article.imageSrc}" alt="${article.title}" loading="lazy">
-        </div>
-        <div class="article-content">
-            <div class="article-title">${article.title}</div>
-            <div class="article-meta">${formatDate(article.postDate)} | ${article.category1}${article.category2 ? ' | ' + article.category2 : ''}</div>
-        </div>
-        <div class="article-actions">
-            <button class="bookmark-btn" title="Bookmark Article">
-                <i class="fa-regular fa-bookmark"></i>
-            </button>
-        </div>
-    `;
+                const articleItem = document.createElement('div');
+                articleItem.classList.add('article-item');
+                articleItem.innerHTML = `
+                    <div class="article-image">
+                        <img src="${article.imageSrc}" alt="${article.title}">
+                    </div>
+                    <div class="article-content">
+                        <div class="article-title">${article.title}</div>
+                        <div class="article-meta">${formatDate(article.postDate)} | ${article.category1}${article.category2 ? ' | ' + article.category2 : ''}</div>
+                    </div>
+                    <div class="article-actions">
+                        <button class="bookmark-btn" title="Bookmark Article">
+                            <i class="fa-regular fa-bookmark"></i>
+                        </button>
+                    </div>
+                `;
     
                 // Handle article click (excluding bookmark button)
                 articleItem.addEventListener('click', function (e) {
@@ -262,4 +262,4 @@
     <script src="navbar.js" defer></script>
 </body>
 
-</html>s
+</html>
