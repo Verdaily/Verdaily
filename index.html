@@ -38,16 +38,21 @@
     <div class="art">
         <section class="article-list" id="article-list">
             <!-- Articles will be dynamically loaded here -->
+
         </section>
+        <div id="spinner" class="spinner"></div> <!-- Spinner at the bottom -->
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const articleList = document.getElementById('article-list');
             const searchInput = document.getElementById('searchInput');
+            const spinner = document.getElementById('spinner'); // Spinner element
             let articles = []; // Store all the articles
             let articlesPerPage = 10; // Number of articles to load per batch
             let currentPage = 1; // Track the current page/batch
+            let isLoading = false; // To prevent multiple simultaneous loads
     
+            // Fetch the articles from the CSV
             fetch('articles.csv')
                 .then(response => response.text())
                 .then(data => {
@@ -56,10 +61,8 @@
                     // Sort articles by latest date first
                     articles.sort((a, b) => parseDate(b.postDate) - parseDate(a.postDate));
     
-                    // Load the first set of articles
-                    loadArticles();
+                    loadArticles(); // Load the first set of articles
     
-                    // Add event listener for search input
                     searchInput.addEventListener('input', function () {
                         const query = searchInput.value.toLowerCase();
                         const filteredArticles = articles.filter(article => {
@@ -75,7 +78,7 @@
                 })
                 .catch(error => console.error('Error loading articles:', error));
     
-            // Function to parse CSV
+            // Function to parse CSV data
             function parseCSV(data) {
                 const rows = data.trim().split('\n').slice(1); // Remove the header row
                 return rows.map(row => {
@@ -101,12 +104,31 @@
     
             // Function to load articles in batches
             function loadArticles() {
-                const startIndex = (currentPage - 1) * articlesPerPage;
-                const endIndex = startIndex + articlesPerPage;
-                const articlesToLoad = articles.slice(startIndex, endIndex);
+                if (isLoading) return; // Prevent multiple simultaneous loads
+                isLoading = true;
+                showSpinner(); // Show the spinner while loading
     
-                renderArticles(articlesToLoad, false); // Render the articles without clearing the list
-                currentPage++; // Move to the next page for subsequent scrolls
+                setTimeout(() => {
+                    const startIndex = (currentPage - 1) * articlesPerPage;
+                    const endIndex = startIndex + articlesPerPage;
+                    const articlesToLoad = articles.slice(startIndex, endIndex);
+    
+                    renderArticles(articlesToLoad, false); // Render the articles without clearing the list
+                    currentPage++; // Move to the next page for subsequent scrolls
+    
+                    hideSpinner(); // Hide the spinner once articles are loaded
+                    isLoading = false;
+                }, 1000); // Simulate a loading delay (1 second)
+            }
+    
+            // Show the spinner at the bottom
+            function showSpinner() {
+                spinner.style.display = 'block';
+            }
+    
+            // Hide the spinner once loading is done
+            function hideSpinner() {
+                spinner.style.display = 'none';
             }
     
             // Render the articles; clear the list if needed
@@ -165,7 +187,7 @@
     
             // Infinite scroll: Load more articles when user scrolls down
             window.addEventListener('scroll', () => {
-                if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+                if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && !isLoading) {
                     loadArticles(); // Load more articles when the user is near the bottom of the page
                 }
             });

@@ -521,3 +521,34 @@ footer .copyright {
     box-shadow: none; /* Removes any box-shadow */
   }
   
+/* Spinner Styles */
+.spinner {
+    display: none; /* Hidden by default */
+    width: 40px;
+    height: 40px;
+    border: 6px solid rgba(0, 0, 0, 0.1);
+    border-top-color: #3498db; /* Change color if needed */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto; /* Center it horizontally */
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Position the spinner at the bottom of the article list */
+.art {
+    position: relative;
+}
+
+.spinner {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 20px auto; /* Center horizontally */
+}
+
