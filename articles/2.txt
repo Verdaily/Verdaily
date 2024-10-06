@@ -138,3 +138,5 @@
         <li>Company Law Board Guidelines.</li>
         <li>Various articles and publications on corporate law and business practices.</li>
     </ul>
+    <a href="https://www.google.com/search?q=your+search+term" target="_blank">Search Google for "your search term"</a>
+<a href="https://www.google.com/search?q=your+search+term">Search Google for "your search term"</a>
