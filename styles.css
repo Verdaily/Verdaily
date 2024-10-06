@@ -552,3 +552,19 @@ footer .copyright {
     margin: 20px auto; /* Center horizontally */
 }
 
+
+/* Not Found Styles */
+.not-found {
+    text-align: center; /* Center the text */
+    margin: 20px 0; /* Add some margin */
+    color: #777; /* Change the color to grey */
+}
+
+.not-found i {
+    font-size: 50px; /* Adjust icon size */
+    color: #3498db; /* Change icon color */
+}
+
+.not-found p {
+    font-size: 18px; /* Font size for the message */
+}

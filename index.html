@@ -38,8 +38,11 @@
     <div class="art">
         <section class="article-list" id="article-list">
             <!-- Articles will be dynamically loaded here -->
-
         </section>
+        <div id="not-found" class="not-found" style="display: none;">
+            <i class="fa-solid fa-frown"></i> <!-- Not found icon -->
+            <p>No articles found. Please try a different search.</p>
+        </div>
         <div id="spinner" class="spinner"></div> <!-- Spinner at the bottom -->
     </div>
     <script>
@@ -47,10 +50,12 @@
             const articleList = document.getElementById('article-list');
             const searchInput = document.getElementById('searchInput');
             const spinner = document.getElementById('spinner'); // Spinner element
+            const notFoundMessage = document.getElementById('not-found'); // Not found message
             let articles = []; // Store all the articles
             let articlesPerPage = 10; // Number of articles to load per batch
             let currentPage = 1; // Track the current page/batch
             let isLoading = false; // To prevent multiple simultaneous loads
+            let searchTimeout; // Timeout for search delay
     
             // Fetch the articles from the CSV
             fetch('articles.csv')
@@ -64,16 +69,33 @@
                     loadArticles(); // Load the first set of articles
     
                     searchInput.addEventListener('input', function () {
-                        const query = searchInput.value.toLowerCase();
-                        const filteredArticles = articles.filter(article => {
-                            return (
-                                article.title.toLowerCase().includes(query) ||
-                                article.category1.toLowerCase().includes(query) ||
-                                article.category2.toLowerCase().includes(query) ||
-                                (article.tags && article.tags.some(tag => tag.toLowerCase().includes(query)))
-                            );
-                        });
-                        renderArticles(filteredArticles); // Render filtered articles
+                        // Clear the previous timeout
+                        clearTimeout(searchTimeout);
+                        showSpinner(); // Show the spinner while searching
+    
+                        // Set a new timeout
+                        searchTimeout = setTimeout(() => {
+                            const query = searchInput.value.toLowerCase();
+                            const filteredArticles = articles.filter(article => {
+                                return (
+                                    article.title.toLowerCase().includes(query) ||
+                                    article.category1.toLowerCase().includes(query) ||
+                                    article.category2.toLowerCase().includes(query) ||
+                                    (article.tags && article.tags.some(tag => tag.toLowerCase().includes(query)))
+                                );
+                            });
+    
+                            renderArticles(filteredArticles); // Render filtered articles
+                            hideSpinner(); // Hide the spinner after rendering
+    
+                            // Show "Not Found" message if no articles match
+                            if (filteredArticles.length === 0) {
+                                articleList.innerHTML = ''; // Clear the article list
+                                notFoundMessage.style.display = 'block'; // Show the not found message
+                            } else {
+                                notFoundMessage.style.display = 'none'; // Hide the not found message if articles are found
+                            }
+                        }, 300); // Delay for search (300 ms)
                     });
                 })
                 .catch(error => console.error('Error loading articles:', error));
@@ -234,6 +256,8 @@
             }
         });
     </script>
+    
+
     
     <script src="navbar.js" defer></script>
 </body>
