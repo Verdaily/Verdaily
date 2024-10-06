@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
 /* Base Styles */
 * {
-    font-family: "Roboto Slab", serif;
+    font-family: "Nunito", serif;
     box-sizing: border-box;
 }
 

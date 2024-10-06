@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
         rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for Social Media Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,15 +23,14 @@
     <style>
         /* Basic Reset */
         * {
-            font-family: "Nunito", system-ui;
-            /* box-sizing: border-box; */
             margin: 0;
             padding: 0;
         }
 
         body {
 
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Nunito', sans-serif !important;
+           
             margin: 0px !important;
             padding: 0px !important;
             background-color: #ffffff;
@@ -54,7 +54,7 @@
             padding-bottom: 40px;
         }
 
-        .article-image {
+        .article-images {
             width: 100%;
             height: auto;
             padding: 0px !important;
@@ -64,7 +64,7 @@
             padding: 12px;
         }
 
-        .article-title {
+        .article-titles {
             margin-top: 0px !important;
             font-size: 2.2rem !important;
             margin-bottom: 0px !important;
@@ -110,13 +110,13 @@
                 margin: 0px;
             }
 
-            .article-title {
+            .article-titles {
                 font-size: 2.1rem !important;
             }
         }
 
         @media (max-width: 480px) {
-            .article-title {
+            .article-titles {
                 font-size: 1.6rem !important;
             }
         }
@@ -313,15 +313,15 @@
 
 </head>
 
-<body>
+v<body>
     <!-- Navbar Placeholder -->
     <div id="navbar-placeholder"></div> <!-- This will be replaced by navbar.html -->
     <div class="content">
         <div class="container">
             <div class="article-content">
-                <h1 class="article-title" id="article-title">Loading...</h1>
+                <h1 class="article-titles" id="article-titles">Loading...</h1>
                 <div class="article-meta" id="article-meta">Loading...</div>
-                <img src="images/placeholder.png" alt="Article Image" class="article-image" id="article-image">
+                <img src="images/placeholder.png" alt="Article Image" class="article-images" id="article-images">
                 <div class="lang">
                     <button id="english-btn">English</button>
                     <button id="hindi-btn">Hindi</button>
@@ -356,12 +356,22 @@
         </p>
         <p class="copyright">&copy; 2024 Verdaily. All rights reserved.</p>
     </footer> -->
+    <div class="art">
+        <h1 class="content" style="margin-block: 16px;">Similar Articles</h1>
+        <section class="article-list" id="article-list">
+            <!-- Articles will be dynamically loaded here -->
+        </section>
 
+
+    
+    <!-- Include your separate JavaScript file -->
+    <script src="similar.js" defer></script>
+    </div>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                const articleTitle = document.getElementById('article-title');
+                const articleTitle = document.getElementById('article-titles');
                 const articleMeta = document.getElementById('article-meta');
-                const articleImage = document.getElementById('article-image');
+                const articleImage = document.getElementById('article-images');
                 const articleText = document.getElementById('article-text');
                 let currentLanguage = 'english'; // Default language is English
 
@@ -491,9 +501,9 @@
         </script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                const articleTitle = document.getElementById('article-title');
+                const articleTitle = document.getElementById('article-titles');
                 const articleMeta = document.getElementById('article-meta');
-                const articleImage = document.getElementById('article-image');
+                const articleImage = document.getElementById('article-images');
                 const articleText = document.getElementById('article-text');
 
                 // Function to get URL parameter 
