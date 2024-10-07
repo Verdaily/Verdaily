@@ -1,11 +1,10 @@
  /* Base Styles */
  * {
-
-     font-family: "Roboto Slab", serif;
      box-sizing: border-box;
  }
 
  body {
+    font-family: "Roboto Slab", serif;
      display: flex;
      flex-direction: column;
      min-height: 100vh;
