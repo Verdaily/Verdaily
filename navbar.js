@@ -70,3 +70,24 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => console.error('Error loading navbar:', error));
 });
+
+
+
+// window.addEventListener('load', function() {
+//     setTimeout(function() {
+//         document.getElementById('loader').style.display = 'none'; // Loader ko hide karen
+//     }, 2000); // 2000 milliseconds (2 seconds) baad
+// });
+
+// // Page loading ke shuru hone par spinner ko dikhaiye
+// document.querySelector('.spinner').style.display = 'block'; // Spinner ko show karen
+
+
+// Page loading ke shuru hone par spinner ko dikhaiye
+document.querySelector('.spinner').style.display = 'block'; // Spinner ko show karen
+
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        document.getElementById('loader').style.display = 'none'; // Loader ko hide karen
+    }, 2000); // 2000 milliseconds (2 seconds) baad
+});
