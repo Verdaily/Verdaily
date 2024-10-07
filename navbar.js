@@ -91,3 +91,10 @@ window.addEventListener('load', function() {
         document.getElementById('loader').style.display = 'none'; // Loader ko hide karen
     }, 900); // 2000 milliseconds (2 seconds) baad
 });
+
+
+// inspect preventer
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  });
+
