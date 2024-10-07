@@ -89,5 +89,5 @@ document.querySelector('.spinner').style.display = 'block'; // Spinner ko show k
 window.addEventListener('load', function() {
     setTimeout(function() {
         document.getElementById('loader').style.display = 'none'; // Loader ko hide karen
-    }, 2000); // 2000 milliseconds (2 seconds) baad
+    }, 900); // 2000 milliseconds (2 seconds) baad
 });
