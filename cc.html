@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatic Copy Text with Icon</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            flex-direction: column; /* Stack elements vertically */
+            height: 100vh; /* Full height */
+            font-family: Arial, sans-serif;
+        }
+        copy-text {
+            cursor: pointer; /* Pointer cursor to indicate clickability */
+            color: blue; /* Text color */
+            text-decoration: underline; /* Underline text for emphasis */
+            margin-bottom: 10px; /* Space between elements */
+            display: flex; /* Flexbox for layout */
+            align-items: center; /* Center icon vertically */
+        }
+        .copy-icon {
+            margin-left: 8px; /* Space between text and icon */
+            cursor: pointer; /* Pointer cursor for icon */
+            width: 20px; /* Width of icon */
+            height: 20px; /* Height of icon */
+            fill: blue; /* Icon color */
+        }
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            font-size: 17px;
+        }
+        .toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+    </style>
+</head>
+<body>
+
+<h2>References</h2>
+
+<copy-text onclick="copyToClipboard(this)">
+    Wikipedia. (n.d.). Tata Consultancy Services. Retrieved from 
+    <a href="https://en.wikipedia.org/wiki/Tata_Consultancy_Services">https://en.wikipedia.org/wiki/Tata_Consultancy_Services</a>
+    <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V8l-4-6zm0 2l4 4h-4V4z"/></svg>
+</copy-text>
+
+<copy-text onclick="copyToClipboard(this)">
+    TCS Official Website. Retrieved from 
+    <a href="https://www.tcs.com/">https://www.tcs.com/</a>
+   
+</copy-text>
+
+<div id="toast" class="toast">Text copied to clipboard!</div>
+
+<script>
+    function copyToClipboard(element) {
+        const text = element.innerText; // Get the text from the copy-text element
+        navigator.clipboard.writeText(text).then(() => {
+            showToast(); // Show the toast notification
+        });
+    }
+
+    function showToast() {
+        const toast = document.getElementById("toast");
+        toast.className = "toast show"; // Add show class to toast
+        setTimeout(() => {
+            toast.className = toast.className.replace("show", ""); // Remove show class after 3 seconds
+        }, 3000);
+    }
+</script>
+
+</body>
+</html>
