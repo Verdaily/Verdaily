@@ -322,33 +322,6 @@
             font-family: 'Nunito', sans-serif;
             /* Ensure Nunito is used for English text */
         }
-        .toast {
-            visibility: hidden;
-            min-width: 250px;
-            margin-left: -125px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 2px;
-            padding: 16px;
-            position: fixed;
-            z-index: 1;
-            left: 50%;
-            bottom: 30px;
-            font-size: 17px;
-        }
-        .toast.show {
-            visibility: visible;
-            animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        }
-        @keyframes fadein {
-            from {bottom: 0; opacity: 0;}
-            to {bottom: 30px; opacity: 1;}
-        }
-        @keyframes fadeout {
-            from {bottom: 30px; opacity: 1;}
-            to {bottom: 0; opacity: 0;}
-        }
     </style>
 
 </head>
@@ -400,6 +373,7 @@
         </p>
         <p class="copyright">&copy; 2024 Verdaily. All rights reserved.</p>
     </footer> -->
+    
         <div class="art">
             <h1 class="content" style="margin-block: 16px;">Similar Articles</h1>
             <section class="article-list" id="article-list">
@@ -604,23 +578,65 @@
             });
         </script>
         <script>
-            function copyText(text) {
+            // Create a copy icon and append it to each copy-text element
+            const copyTexts = document.querySelectorAll('copy-text');
+            copyTexts.forEach(element => {
+                const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                icon.setAttribute("class", "copy-icon");
+                icon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+                icon.setAttribute("viewBox", "0 0 448 512");
+                icon.innerHTML = "<path d='M384 336l-192 0c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l140.1 0L400 115.9 400 320c0 8.8-7.2 16-16 16zM192 384l192 0c35.3 0 64-28.7 64-64l0-204.1c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1L192 0c-35.3 0-64 28.7-64 64l0 256c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64L0 448c0 35.3 28.7 64 64 64l192 0c35.3 0 64-28.7 64-64l0-32-48 0 0 32c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l32 0 0-48-32 0z'/>";
+                icon.onclick = function(event) {
+                    event.stopPropagation(); // Prevent click event from bubbling up to the copy-text
+                    copyToClipboard(element); // Copy text when icon is clicked
+                };
+                element.appendChild(icon); // Append icon to copy-text
+            });
+        
+            function copyToClipboard(element) {
+                const text = element.innerText; // Get the text from the copy-text element
                 navigator.clipboard.writeText(text).then(() => {
-                    showToast();
-                }).catch(err => {
-                    console.error('Error copying text: ', err);
+                    showToast(); // Show the toast notification
                 });
             }
         
             function showToast() {
                 const toast = document.getElementById("toast");
-                toast.className = "toast show";
+                toast.className = "toast show"; // Add show class to toast
                 setTimeout(() => {
-                    toast.className = toast.className.replace("show", "");
-                }, 3000); // 3 seconds
+                    toast.className = toast.className.replace("show", ""); // Remove show class after 3 seconds
+                }, 3000);
             }
         </script>
+        
         <script src="navbar.js"></script>
+        <script>
+            // Create a copy icon and append it to each copy-text element
+            const copyTexts = document.querySelectorAll('copy-text');
+            copyTexts.forEach(element => {
+                const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                icon.setAttribute("class", "copy-icon");
+                icon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+                icon.setAttribute("viewBox", "0 0 448 512");
+                icon.innerHTML = "<path d='M384 336l-192 0c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l140.1 0L400 115.9 400 320c0 8.8-7.2 16-16 16zM192 384l192 0c35.3 0 64-28.7 64-64l0-204.1c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1L192 0c-35.3 0-64 28.7-64 64l0 256c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64L0 448c0 35.3 28.7 64 64 64l192 0c35.3 0 64-28.7 64-64l0-32-48 0 0 32c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l32 0 0-48-32 0z'/>";
+                element.appendChild(icon); // Append icon to copy-text
+                
+                // Automatically copy text when the page loads
+                const text = element.innerText;
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(); // Show the toast notification
+                });
+            });
+        
+            function showToast() {
+                const toast = document.getElementById("toast");
+                toast.className = "toast show"; // Add show class to toast
+                setTimeout(() => {
+                    toast.className = toast.className.replace("show", ""); // Remove show class after 3 seconds
+                }, 3000);
+            }
+        </script>
+        
 
 </body>
 

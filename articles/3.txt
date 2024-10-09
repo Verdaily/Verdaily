@@ -127,32 +127,14 @@
         
         <p><strong>Rajesh Gopinathan:</strong> CEO from 2017 to present. He focuses on agility, customer partnerships, and continuous learning.</p>
 
-        <div class="text-container" onclick="copyText('Wikipedia. (n.d.). Tata Consultancy Services. Retrieved from https://en.wikipedia.org/wiki/Tata_Consultancy_Services')"> 
-    <strong>Wikipedia.</strong> (n.d.). Tata Consultancy Services. Retrieved from <a href="https://en.wikipedia.org/wiki/Tata_Consultancy_Services">https://en.wikipedia.org/wiki/Tata_Consultancy_Services</a>
-</div>
-<div class="text-container" onclick="copyText('TCS Official Website. Retrieved from https://www.tcs.com/')"> 
-    <strong>TCS Official Website.</strong> Retrieved from <a href="https://www.tcs.com/">https://www.tcs.com/</a>
-</div>
-<div class="text-container" onclick="copyText('Business Culture Awards. (n.d.). Case Study: Tata Consultancy Services. Retrieved from https://businesscultureawards.com/business-culture-case-studies/innovation/case-study-tata-consultancy-services/')"> 
-    <strong>Business Culture Awards.</strong> (n.d.). Case Study: Tata Consultancy Services. Retrieved from <a href="https://businesscultureawards.com/business-culture-case-studies/innovation/case-study-tata-consultancy-services/">https://businesscultureawards.com/business-culture-case-studies/innovation/case-study-tata-consultancy-services/</a>
-</div>
-<div class="text-container" onclick="copyText('Scribd. (n.d.). 15 Chapter 7 PDF. Retrieved from https://www.scribd.com/document/404787768/15-chapter-7-pdf')"> 
-    <strong>Scribd.</strong> (n.d.). 15 Chapter 7 PDF. Retrieved from <a href="https://www.scribd.com/document/404787768/15-chapter-7-pdf">https://www.scribd.com/document/404787768/15-chapter-7-pdf</a>
-</div>
-<div class="text-container" onclick="copyText('Moneycontrol. (n.d.). Companies. Retrieved from https://www.moneycontrol.com/news/business/companies/-1098015.html')"> 
-    <strong>Moneycontrol.</strong> (n.d.). Companies. Retrieved from <a href="https://www.moneycontrol.com/news/business/companies/-1098015.html">https://www.moneycontrol.com/news/business/companies/-1098015.html</a>
-</div>
-<div class="text-container" onclick="copyText('Tata Official Website. (n.d.). TCS Timeline. Retrieved from https://www.tata.com/about-us/tata-group-our-heritage/tata-consultancy-services-tcs-timeline-1968')"> 
-    <strong>Tata Official Website.</strong> (n.d.). TCS Timeline. Retrieved from <a href="https://www.tata.com/about-us/tata-group-our-heritage/tata-consultancy-services-tcs-timeline-1968">https://www.tata.com/about-us/tata-group-our-heritage/tata-consultancy-services-tcs-timeline-1968</a>
-</div>
-<div class="text-container" onclick="copyText('Google Groups. (n.d.). SJSPATH2SUCCESS Discussion. Retrieved from https://groups.google.com/g/sjspath2success/c/s2YQWIKpWv0?pli=1')"> 
-    <strong>Google Groups.</strong> (n.d.). SJSPATH2SUCCESS Discussion. Retrieved from <a href="https://groups.google.com/g/sjspath2success/c/s2YQWIKpWv0?pli=1">https://groups.google.com/g/sjspath2success/c/s2YQWIKpWv0?pli=1</a>
-</div>
-<div class="text-container" onclick="copyText('BrandRiddle. (n.d.). TCS History. Retrieved from https://brandriddle.com/tcs-history/')"> 
-    <strong>BrandRiddle.</strong> (n.d.). TCS History. Retrieved from <a href="https://brandriddle.com/tcs-history/">https://brandriddle.com/tcs-history/</a>
-</div>
-<div class="text-container" onclick="copyText('Additional Sources: Industry reports on IT services leadership, interviews and speeches by TCS executives, academic journals on leadership and organizational behavior.')"> 
-    <strong>Additional Sources:</strong> Industry reports on IT services leadership, interviews and speeches by TCS executives, academic journals on leadership and organizational behavior.
-</div>
+        <h2>References</h2>
+        <copy-text><p><strong>Wikipedia.</strong> (n.d.). Tata Consultancy Services. Retrieved from <a href="https://en.wikipedia.org/wiki/Tata_Consultancy_Services">https://en.wikipedia.org/wiki/Tata_Consultancy_Services</a></p></copy-text>
+        <p><strong>TCS Official Website.</strong> Retrieved from <a href="https://www.tcs.com/">https://www.tcs.com/</a></p>
+        <p><strong>Business Culture Awards.</strong> (n.d.). Case Study: Tata Consultancy Services. Retrieved from <a href="https://businesscultureawards.com/business-culture-case-studies/innovation/case-study-tata-consultancy-services/">https://businesscultureawards.com/business-culture-case-studies/innovation/case-study-tata-consultancy-services/</a></p>
+        <p><strong>Scribd.</strong> (n.d.). 15 Chapter 7 PDF. Retrieved from <a href="https://www.scribd.com/document/404787768/15-chapter-7-pdf">https://www.scribd.com/document/404787768/15-chapter-7-pdf</a></p>
+        <p><strong>Moneycontrol.</strong> (n.d.). Companies. Retrieved from <a href="https://www.moneycontrol.com/news/business/companies/-1098015.html">https://www.moneycontrol.com/news/business/companies/-1098015.html</a></p>
+        <p><strong>Tata Official Website.</strong> (n.d.). TCS Timeline. Retrieved from <a href="https://www.tata.com/about-us/tata-group-our-heritage/tata-consultancy-services-tcs-timeline-1968">https://www.tata.com/about-us/tata-group-our-heritage/tata-consultancy-services-tcs-timeline-1968</a></p>
+        <p><strong>Google Groups.</strong> (n.d.). SJSPATH2SUCCESS Discussion. Retrieved from <a href="https://groups.google.com/g/sjspath2success/c/s2YQWIKpWv0?pli=1">https://groups.google.com/g/sjspath2success/c/s2YQWIKpWv0?pli=1</a></p>
+        <p><strong>BrandRiddle.</strong> (n.d.). TCS History. Retrieved from <a href="https://brandriddle.com/tcs-history/">https://brandriddle.com/tcs-history/</a></p>
+        <p><strong>Additional Sources:</strong> Industry reports on IT services leadership, interviews and speeches by TCS executives, academic journals on leadership and organizational behavior.</p>
 
-<div id="toast" class="toast">Text copied to clipboard!</div>
