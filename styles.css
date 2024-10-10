@@ -4,9 +4,9 @@
 * {
         box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
-    -webkit-user-select: none;
+    /* -webkit-user-select: none; */
     /* Prevents text selection */
-    user-select: none;
+    /* user-select: none; */
     /* Prevents text selection for non-webkit browsers */
 }
 
