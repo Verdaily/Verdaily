@@ -93,8 +93,8 @@ window.addEventListener('load', function() {
 });
 
 
-// inspect preventer
-  document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-  });
+// // inspect preventer
+//   document.addEventListener('contextmenu', function(e) {
+//     e.preventDefault();
+//   });
 

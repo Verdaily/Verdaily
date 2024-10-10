@@ -1,105 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <!-- Existing head content -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automatic Copy Text with Custom Icon</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-        }
-        copy-text {
-            cursor: pointer;
-            color: blue;
-            text-decoration: underline;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-        }
-        .copy-icon {
-            margin-left: 8px;
-            width: 20px;
-            height: 20px;
-            fill: blue;
-        }
-        .toast {
-            visibility: hidden;
-            min-width: 250px;
-            margin-left: -125px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 2px;
-            padding: 16px;
-            position: fixed;
-            z-index: 1;
-            left: 50%;
-            bottom: 30px;
-            font-size: 17px;
-        }
-        .toast.show {
-            visibility: visible;
-            animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        }
-        @keyframes fadein {
-            from {bottom: 0; opacity: 0;}
-            to {bottom: 30px; opacity: 1;}
-        }
-        @keyframes fadeout {
-            from {bottom: 30px; opacity: 1;}
-            to {bottom: 0; opacity: 0;}
-        }
-    </style>
+    <title>Article</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pZ1u6kQeC8lgNpPU4Hf3ryIGUQhPId1G1+LwT+k0Z3PbH8sbBwB7/9pUAnl/TURgx80NzY8x+CRG2C1mdfN57w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Your existing CSS files -->
+    <link rel="stylesheet" href="para.css">
+    
+    <!-- Other head elements -->
+    
 </head>
+
 <body>
-
-<h2>References</h2>
-
-<copy-text>Wikipedia. (n.d.). Tata Consultancy Services. Retrieved from 
-    <a href="https://en.wikipedia.org/wiki/Tata_Consultancy_Services">https://en.wikipedia.org/wiki/Tata_Consultancy_Services</a>
-</copy-text>
-
-<copy-text>TCS Official Website. Retrieved from 
-    <a href="https://www.tcs.com/">https://www.tcs.com/</a>
-</copy-text>
-
-<copy-text>Business Culture Awards. (n.d.). Case Study: Tata Consultancy Services. Retrieved from 
-    <a href="https://businesscultureawards.com/business-culture-case-studies/innovation/case-study-tata-consultancy-services/">https://businesscultureawards.com/business-culture-case-studies/innovation/case-study-tata-consultancy-services/</a>
-</copy-text>
-
-<div id="toast" class="toast">Text copied to clipboard!</div>
-
-<script>
-    // Create a copy icon and append it to each copy-text element
-    const copyTexts = document.querySelectorAll('copy-text');
-    copyTexts.forEach(element => {
-        const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        icon.setAttribute("class", "copy-icon");
-        icon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-        icon.setAttribute("viewBox", "0 0 448 512");
-        icon.innerHTML = "<path d='M384 336l-192 0c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l140.1 0L400 115.9 400 320c0 8.8-7.2 16-16 16zM192 384l192 0c35.3 0 64-28.7 64-64l0-204.1c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1L192 0c-35.3 0-64 28.7-64 64l0 256c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64L0 448c0 35.3 28.7 64 64 64l192 0c35.3 0 64-28.7 64-64l0-32-48 0 0 32c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l32 0 0-48-32 0z'/>";
-        element.appendChild(icon); // Append icon to copy-text
-        
-        // Automatically copy text when the page loads
-        const text = element.innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            showToast(); // Show the toast notification
-        });
-    });
-
-    function showToast() {
-        const toast = document.getElementById("toast");
-        toast.className = "toast show"; // Add show class to toast
-        setTimeout(() => {
-            toast.className = toast.className.replace("show", ""); // Remove show class after 3 seconds
-        }, 3000);
-    }
-</script>
-
+    <!-- Existing body content -->
+    
+    <div class="article-text" id="article-text">
+        <p>
+            Here is some important information: 
+            <copy-text>Confidential Data</copy-text>.
+        </p>
+        <p>
+            Another piece of text to copy: 
+            <copy-text>Another Important Text</copy-text>.
+        </p>
+    </div>
+    
+    <!-- External Scripts -->
+    <script src="copytext.js" defer></script>
+    <!-- Other scripts -->
+    <script src="navbar.js" defer></script>
 </body>
+
 </html>
