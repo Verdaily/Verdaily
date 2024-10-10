@@ -1,4 +1,4 @@
-<h2>Executive Summary</h2>
+<h2>Overview</h2>
         <p><strong>Tata Consultancy Services (TCS)</strong> is a leading global company in IT services and consulting. Known for its strong leaders and focus on new ideas, TCS started in 1968 and has grown into one of the most valuable IT companies in the world. TCS works in more than 46 countries and has over half a million employees. This case study looks at how TCS's leaders have helped the company grow, created a culture of constant improvement, and kept TCS ahead in a fast-changing industry. By using simple and clear examples, this study offers useful insights for business students, enthusiasts, and the general public who are interested in understanding effective leadership in big organizations.</p>
 
         <h2>Introduction</h2>
@@ -120,11 +120,8 @@
         <h3>Appendix B: Key Leadership Figures at TCS</h3>
         
         <p><strong>F.C. Kohli:</strong> First CEO of TCS. He built the foundation for TCS's growth by focusing on research and development and automating processes.</p>
-        
         <p><strong>S. Ramadorai:</strong> CEO from 1996 to 2009. He led TCS's global expansion and built strong client relationships.</p>
-        
         <p><strong>N. Chandrasekaran:</strong> CEO from 2009 to 2017. He guided the company's digital transformation and emphasized employee training and upskilling.</p>
-        
         <p><strong>Rajesh Gopinathan:</strong> CEO from 2017 to present. He focuses on agility, customer partnerships, and continuous learning.</p>
 
         <h2>References</h2>

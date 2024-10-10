@@ -1,7 +1,4 @@
-
-    <h1>Sugar Cosmetics: A Success Story of Hard Work and Innovation</h1>
-
-    <h2>Executive Summary</h2>
+<h2>Overview</h2>
     <p><strong>Sugar Cosmetics</strong> is a renowned Indian makeup brand known for its high-quality and affordable products. Founded by <strong>Vineeta Singh</strong> and <strong>Kaushik Mukherjee</strong> in 2015, Sugar Cosmetics has grown from a small startup to a leading name in the beauty industry. This case study explores the journey of Sugar Cosmetics, highlighting the challenges they faced, the strategies they implemented to overcome them, and the success they achieved. It provides valuable lessons on how dedication, smart planning, and understanding customer needs can lead to success in a competitive market.</p>
 
     <h2>Introduction</h2>
