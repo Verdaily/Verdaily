@@ -31,10 +31,7 @@
 <p>Asian Paints exemplifies a company that has successfully navigated the complexities of the business environment through relentless innovation, effective marketing, and a commitment to customer satisfaction. From its origins as a small manufacturer to becoming a global leader in the paint industry, the journey of Asian Paints is a testament to the power of vision, adaptability, and a deep understanding of market dynamics. As the company continues to evolve, it remains dedicated to enhancing the lives of its customers through high-quality products and responsible business practices.</p>
 
 <h2>References</h2>
-<ul>
-  <li><a href="https://en.wikipedia.org/wiki/Asian_Paints">Wikipedia - Asian Paints</a></li>
-  <li><a href="https://www.businessinsider.in/business/news/asian-paints-a-leader-in-the-paint-industry/articleshow/77913866.cms">Business Insider</a></li>
-  <li><a href="https://www.moneycontrol.com/news/business/asian-paints-history-1927366.html">Moneycontrol - Asian Paints History</a></li>
-  <li><a href="https://www.asianpaints.com/about-us.html">Asian Paints Official Website - About Us</a></li>
-  <li><a href="https://iide.co/case-study/marketing-strategy-of-asian-paints/">IIDE Case Study - Marketing Strategy of Asian Paints</a></li>
-</ul>
+<p><strong>Wikipedia:</strong> <copy-text>https://en.wikipedia.org/wiki/Asian_Paints</copy-text></p>
+<p><strong>Moneycontrol:</strong> <copy-text>https://www.moneycontrol.com/news/business/asian-paints-history-1927366.html</copy-text></p>
+<p><strong>Asian Paints Official Website:</strong> <copy-text>https://www.asianpaints.com/about-us.html</copy-text></p>
+<p><strong>IIDE Case Study:</strong> <copy-text>https://iide.co/case-study/marketing-strategy-of-asian-paints/</copy-text></p>
