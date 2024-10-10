@@ -11,10 +11,13 @@ class CopyText extends HTMLElement {
         // Create a wrapper span
         const wrapper = document.createElement('span');
         wrapper.style.cursor = 'pointer';
-        wrapper.style.display = 'inline-flex';
+        wrapper.style.display = 'inline-flex'; // You can change this to 'inline-block' if needed
         wrapper.style.alignItems = 'center';
         wrapper.style.color = '#007BFF'; /* Optional: Customize text color */
         wrapper.style.userSelect = 'text'; /* Allow text selection */
+        wrapper.style.flexWrap = 'wrap'; /* Allow wrapping if using flex */
+        wrapper.style.wordBreak = 'break-word'; /* Break words to prevent overflow */
+        wrapper.style.maxWidth = '100%'; /* Ensure it doesn't exceed parent width */
 
         // Clone and append child nodes
         Array.from(this.childNodes).forEach(node => {
@@ -27,6 +30,7 @@ class CopyText extends HTMLElement {
         copyIcon.style.marginLeft = '8px';
         copyIcon.style.color = '#007BFF'; /* Match icon color with text */
         copyIcon.style.pointerEvents = 'none'; /* Prevent icon from capturing click events */
+        copyIcon.style.flexShrink = '0'; /* Prevent icon from shrinking */
 
         wrapper.appendChild(copyIcon);
 
@@ -97,6 +101,14 @@ function addToastStyles() {
             .toast.show {
                 visibility: visible;
                 opacity: 1;
+            }
+
+            /* Optional: Responsive adjustments for the toast */
+            @media (max-width: 600px) {
+                .toast {
+                    min-width: 150px;
+                    font-size: 15px;
+                }
             }
         `;
         document.head.appendChild(toastStyle);
